@@ -18,6 +18,7 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 add_executable(${CMAKE_PROJECT_NAME})
 
 add_subdirectory(cmake/gd32firmware)
+add_subdirectory(BSP)
 
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
@@ -25,6 +26,7 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
     gd32firmware
+    bsp
     # Add user defined libraries
 )
 

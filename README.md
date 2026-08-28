@@ -38,6 +38,11 @@ Build artifacts are written to `build/Debug/`:
 ├── Core/
 │   ├── Inc/                    # Application headers
 │   └── Src/                    # Application sources (main, interrupts, syscalls, etc.)
+├── BSP/
+│   ├── Inc/bsp.h               # Unified BSP init
+│   ├── Src/bsp.c
+│   ├── BSP_led/                # LED driver (PE4)
+│   └── BSP_usart/              # USART0 driver + printf retarget
 ├── Drivers/
 │   ├── CMSIS/
 │   └── GD32E50x_standard_peripheral/
@@ -70,3 +75,12 @@ Build artifacts are written to `build/Debug/`:
 - Add user libraries, macros, and link options in the root `CMakeLists.txt`
 - Manage sources, drivers, and the linker script in `cmake/gd32firmware/CMakeLists.txt`
 - Place application code in `Core/Inc` and `Core/Src`
+- Board support packages live under `BSP/` (`BSP_led`, `BSP_usart`, etc.)
+
+## BSP Pin Mapping (Schematic)
+
+| Peripheral | Pin | Notes |
+|------------|-----|-------|
+| LED1 | PE4 | Active high |
+| USART0 TX | PA9 | 115200 baud |
+| USART0 RX | PA10 | printf via `__io_putchar` |

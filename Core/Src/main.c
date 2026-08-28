@@ -4,8 +4,10 @@
 */
 
 #include "main.h"
-#include "gd32e50x.h"
+#include "bsp.h"
+#include "bsp_led.h"
 #include "systick.h"
+#include <stdio.h>
 
 void Error_Handler(void)
 {
@@ -16,10 +18,18 @@ void Error_Handler(void)
 int main(void)
 {
     systick_config();
+    bsp_init();
 
-    /* Add your application code here */
+    printf("\r\nGD32VET6 Project Template\r\n");
+    printf("BSP LED and USART initialized.\r\n");
 
     while (1) {
-        __WFI();
+        bsp_led_on(BSP_LED1);
+        printf("LED1 ON\r\n");
+        delay_1ms(500);
+
+        bsp_led_off(BSP_LED1);
+        printf("LED1 OFF\r\n");
+        delay_1ms(500);
     }
 }
