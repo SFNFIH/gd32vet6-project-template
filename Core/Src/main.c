@@ -9,6 +9,8 @@
 #include "systick.h"
 #include <stdio.h>
 
+#define LED_BLINK_MS    500U
+
 void Error_Handler(void)
 {
     while (1) {
@@ -20,16 +22,10 @@ int main(void)
     systick_config();
     bsp_init();
 
-    printf("\r\nGD32VET6 Project Template\r\n");
-    printf("BSP LED and USART initialized.\r\n");
+    printf("\r\nGD32VET6 Project Template ready.\r\n");
 
     while (1) {
-        bsp_led_on(BSP_LED1);
-        printf("LED1 ON\r\n");
-        delay_1ms(500);
-
-        bsp_led_off(BSP_LED1);
-        printf("LED1 OFF\r\n");
-        delay_1ms(500);
+        bsp_led_toggle();
+        delay_1ms(LED_BLINK_MS);
     }
 }

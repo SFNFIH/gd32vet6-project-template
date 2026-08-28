@@ -1,44 +1,30 @@
 #include "bsp_led.h"
 #include "gd32e50x.h"
 
-/* Schematic: LED1 on PE4 */
-#define BSP_LED1_GPIO_PORT    GPIOE
-#define BSP_LED1_GPIO_CLK     RCU_GPIOE
-#define BSP_LED1_GPIO_PIN     GPIO_PIN_4
-
-static uint32_t bsp_led_port[BSP_LED_COUNT] = {
-    BSP_LED1_GPIO_PORT,
-};
-
-static uint32_t bsp_led_pin[BSP_LED_COUNT] = {
-    BSP_LED1_GPIO_PIN,
-};
-
-static rcu_periph_enum bsp_led_clk[BSP_LED_COUNT] = {
-    BSP_LED1_GPIO_CLK,
-};
+/* Schematic: LED1 on PE4 (LED3/LED4 are power-driven, not MCU-controlled) */
+#define BSP_LED_GPIO_PORT    GPIOE
+#define BSP_LED_GPIO_CLK     RCU_GPIOE
+#define BSP_LED_GPIO_PIN     GPIO_PIN_4
 
 void bsp_led_init(void)
 {
-    for (uint32_t i = 0; i < BSP_LED_COUNT; i++) {
-        rcu_periph_clock_enable(bsp_led_clk[i]);
-        gpio_init(bsp_led_port[i], GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, bsp_led_pin[i]);
-        gpio_bit_reset(bsp_led_port[i], bsp_led_pin[i]);
-    }
+    rcu_periph_clock_enable(BSP_LED_GPIO_CLK);
+    gpio_init(BSP_LED_GPIO_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, BSP_LED_GPIO_PIN);
+    gpio_bit_reset(BSP_LED_GPIO_PORT, BSP_LED_GPIO_PIN);
 }
 
-void bsp_led_on(bsp_led_t led)
+void bsp_led_on(void)
 {
-    gpio_bit_set(bsp_led_port[led], bsp_led_pin[led]);
+    gpio_bit_set(BSP_LED_GPIO_PORT, BSP_LED_GPIO_PIN);
 }
 
-void bsp_led_off(bsp_led_t led)
+void bsp_led_off(void)
 {
-    gpio_bit_reset(bsp_led_port[led], bsp_led_pin[led]);
+    gpio_bit_reset(BSP_LED_GPIO_PORT, BSP_LED_GPIO_PIN);
 }
 
-void bsp_led_toggle(bsp_led_t led)
+void bsp_led_toggle(void)
 {
-    gpio_bit_write(bsp_led_port[led], bsp_led_pin[led],
-                   (bit_status)(1U - gpio_input_bit_get(bsp_led_port[led], bsp_led_pin[led])));
+    gpio_bit_write(BSP_LED_GPIO_PORT, BSP_LED_GPIO_PIN,
+                   (bit_status)(1U - gpio_input_bit_get(BSP_LED_GPIO_PORT, BSP_LED_GPIO_PIN)));
 }

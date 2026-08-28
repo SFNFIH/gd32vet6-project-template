@@ -81,6 +81,6 @@ Build artifacts are written to `build/Debug/`:
 
 | Peripheral | Pin | Notes |
 |------------|-----|-------|
-| LED1 | PE4 | Active high |
+| LED1 | PE4 | Active high (only MCU-controlled LED) |
 | USART0 TX | PA9 | 115200 baud |
 | USART0 RX | PA10 | printf via `__io_putchar` |

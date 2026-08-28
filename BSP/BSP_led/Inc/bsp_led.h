@@ -5,17 +5,10 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
-
-typedef enum {
-    BSP_LED1 = 0,
-    BSP_LED_COUNT
-} bsp_led_t;
-
 void bsp_led_init(void);
-void bsp_led_on(bsp_led_t led);
-void bsp_led_off(bsp_led_t led);
-void bsp_led_toggle(bsp_led_t led);
+void bsp_led_on(void);
+void bsp_led_off(void);
+void bsp_led_toggle(void);
 
 #ifdef __cplusplus
 }
