@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.22)
 # User-editable project file (STM32CubeMX-style layout).
 #
 
-set(CMAKE_PROJECT_NAME gd32e503vet6)
+set(CMAKE_PROJECT_NAME gd32vet6_project_template)
 
 include("cmake/gcc-arm-none-eabi.cmake")
 

@@ -1,61 +1,61 @@
-# GD32E503VET6 CMake 工程
+# GD32VET6 Project Template
 
-适用于 **GD32E503VET6** 的 GCC 交叉编译工程，目录结构对齐 **STM32CubeMX** 生成的 CMake 工程。
+GCC cross-compilation CMake project for **GD32E503VET6**, with a directory layout aligned to **STM32CubeMX** generated CMake projects.
 
-## 依赖
+## Requirements
 
 - CMake >= 3.22
-- Ninja（推荐）
-- `gcc-arm-none-eabi` 工具链
+- Ninja (recommended)
+- `gcc-arm-none-eabi` toolchain
 
 ```bash
 sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi cmake ninja-build
 ```
 
-## 构建
+## Build
 
 ```bash
 cmake --preset Debug
 cmake --build --preset Debug
 ```
 
-产物位于 `build/Debug/`：
+Build artifacts are written to `build/Debug/`:
 
-- `gd32e503vet6.elf`
-- `gd32e503vet6.hex`
-- `gd32e503vet6.bin`
+- `gd32vet6_project_template.elf`
+- `gd32vet6_project_template.hex`
+- `gd32vet6_project_template.bin`
 
-## 目录结构（对齐 STM32CubeMX）
+## Directory Layout (STM32CubeMX-style)
 
 ```
 .
-├── CMakeLists.txt              # 用户可修改的根 CMake 文件
+├── CMakeLists.txt              # User-editable root CMake file
 ├── CMakePresets.json
 ├── cmake/
-│   ├── gcc-arm-none-eabi.cmake # 工具链配置
+│   ├── gcc-arm-none-eabi.cmake # Toolchain configuration
 │   └── stm32cubemx/
-│       └── CMakeLists.txt      # 固件库/源文件配置（对应 CubeMX 生成文件）
+│       └── CMakeLists.txt      # Firmware/library configuration (CubeMX-generated equivalent)
 ├── Core/
-│   ├── Inc/                    # 应用头文件
-│   └── Src/                    # 应用源文件（main、中断、syscalls 等）
+│   ├── Inc/                    # Application headers
+│   └── Src/                    # Application sources (main, interrupts, syscalls, etc.)
 ├── Drivers/
 │   ├── CMSIS/
 │   └── GD32E50x_standard_peripheral/
-├── startup_gd32e503vet6.s        # 启动文件
-└── GD32E503VET6_FLASH.ld         # 链接脚本
+├── startup_gd32vet6.s            # Startup file
+└── GD32VET6_FLASH.ld             # Linker script
 ```
 
-## MCU 配置
+## MCU Configuration
 
-| 参数 | 值 |
-|------|-----|
-| 芯片 | GD32E503VET6 |
-| 内核 | Cortex-M33 + FPU |
+| Parameter | Value |
+|-----------|-------|
+| MCU | GD32E503VET6 |
+| Core | Cortex-M33 + FPU |
 | Flash / SRAM | 512 KB / 128 KB |
-| 宏定义 | `GD32E50X`、`GD32E50X_HD`、`USE_STDPERIPH_DRIVER` |
+| Defines | `GD32E50X`, `GD32E50X_HD`, `USE_STDPERIPH_DRIVER` |
 
-## 自定义说明
+## Customization
 
-- 在根目录 `CMakeLists.txt` 中添加用户库、宏定义和链接选项
-- 在 `cmake/stm32cubemx/CMakeLists.txt` 中管理源文件、驱动和链接脚本（对应 CubeMX 重新生成区域）
-- 应用代码放在 `Core/Inc` 与 `Core/Src`
+- Add user libraries, macros, and link options in the root `CMakeLists.txt`
+- Manage sources, drivers, and the linker script in `cmake/stm32cubemx/CMakeLists.txt` (CubeMX regeneration equivalent)
+- Place application code in `Core/Inc` and `Core/Src`

@@ -1,6 +1,6 @@
 /*!
     \file    main.c
-    \brief   GD32E503VET6 CMake template application
+    \brief   GD32VET6 Project Template application
 */
 
 #include "main.h"

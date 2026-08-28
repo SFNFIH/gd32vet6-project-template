@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-# GD32E503VET6 firmware configuration (STM32CubeMX-style layout)
+# GD32VET6 Project Template firmware configuration (STM32CubeMX-style layout)
 
 set(MX_Defines_Syms
     USE_STDPERIPH_DRIVER
@@ -23,7 +23,7 @@ set(MX_Application_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/system_gd32e50x.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/syscalls.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/sysmem.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../startup_gd32e503vet6.s
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../startup_gd32vet6.s
 )
 
 set(GD32_Drivers_Src
@@ -57,7 +57,7 @@ set(GD32_Drivers_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/GD32E50x_standard_peripheral/Source/gd32e50x_wwdgt.c
 )
 
-set(MX_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/../../GD32E503VET6_FLASH.ld)
+set(MX_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/../../GD32VET6_FLASH.ld)
 
 set(MX_LINK_LIBS
     GD32_Drivers
