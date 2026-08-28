@@ -1,0 +1,1801 @@
+## GigaDevice Semiconductor Inc.
+
+## GD32E5xx Hardware Development Guide
+
+## Application Note AN078
+
+##### Revision 1.4 (Dec. 2024)
+
+## Table of Contents
+
+Table of Contents ... 2
+
+List of Figures ... 4
+
+List of Tables ... 5
+
+1. Introduction ... 6
+
+2. Hardware design ... 7 
+2.1. Power supply ... 7 
+2.1.1. Backup domain ... 7 
+2.1.2. VDD/VDDA domain ... 8 
+2.1.3. Power supply design ... 8 
+2.2. Power supply detection and reset ... 9 
+2.2.1. LVD ... 10 
+2.2.2. POR / PDR ... 11 
+2.2.3. BOR ... 12 
+2.2.4. NRST Pin ... 13 
+2.3. Clock ... 14 
+2.3.1. External high-speed crystal oscillator clock (HXTAL) ... 16 
+2.3.2. External low-speed crystal oscillator clock (LXTAL) ... 18 
+2.3.3. Clock Output Capability (CKOUT) ... 19 
+2.3.4. HXTAL Clock Monitor (CKM) ... 19 
+2.3.5. PLL Spread Spectrum (SSCG) ... 20 
+2.3.6. Voltage control ... 21 
+2.4. Startup Configuration ... 21 
+2.5. Typical Peripheral Modules ... 23 
+2.5.1. GPIO Circuit ... 23 
+2.5.2. USART Circuit ... 24 
+2.5.3. ADC Circuit ... 24 
+2.5.4. DAC Circuit ... 25 
+2.5.5. USB Circuit ... 26 
+2.5.6. Standby mode wake-up circuit ... 28 
+2.6. Download the debug circuit ... 28 
+
+2.7. Reference Schematic Design ... 30
+
+3. PCB Layout Design ... 31
+
+3.1. Power Supply Decoupling Capacitors ... 31
+
+3.2. Clock Circuit ... 31
+
+3.3. Reset Circuit ... 32
+
+3 
+3.4. SHRTIMER Circuit ... 33 
+3.5. USB Circuit ... 33 
+4. Package Description ... 35 
+5. Revision history ... 36 
+
+## List of Figures
+
+Figure 2-1. GD32E5xx Power supply overview ... 7 
+Figure 2-2. GD32E5xx Recommended Power Supply Design ... 9 
+Figure 2-3. RCU_RSTSCK Register ... 10 
+Figure 2-4. System Reset Circuit ... 10 
+Figure 2-5. LVD Threshold Waveform ... 11 
+Figure 2-6. Power-on/power-down reset waveforms ... 11 
+Figure 2-7. BOR Threshold Waveform ... 12 
+Figure 2-8. Recommend External Reset Circuit ... 13 
+Figure 2-9. NRST pin power-on and power-off MOS tube pulse diagram ... 14 
+Figure 2-10. GD32E503xx Clock Tree ... 15 
+Figure 2-11. GD32E505xx / GD32E507xx / GD32E508xx Clock Tree ... 16 
+Figure 2-12. HXTAL External Crystal Circuit ... 17 
+Figure 2-13. HXTAL External Clock Circuit ... 17 
+Figure 2-14. LXTAL External Crystal Circuit ... 18 
+Figure 2-15. LXTAL External Clock Circuit ... 18 
+Figure 2-16. Center Spread Spectrum ... 21 
+Figure 2-17. Down Spread Spectrum ... 21 
+Figure 2-18. Recommend BOOT Circuit Design ... 22 
+Figure 2-19. Basic structure of standard IO ... 23 
+Figure 2-20. ADC Acquisition Circuit Design ... 25 
+Figure 2-21. Recommend USB-Device Reference Circuit ... 26 
+Figure 2-22. Recommend USB-Device (USBFS) Reference Circuit ... 27 
+Figure 2-23. Recommend USB-Host Reference Circuit ... 27 
+Figure 2-24. Recommend Standby external wake-up pin circuit design ... 28 
+Figure 2-25. Recommend JTAG Wiring Reference Design ... 29 
+Figure 2-26. Recommend SWD Wiring Reference Design ... 29 
+Figure 2-27. GD32E5xx Recommend Reference Schematic Design ... 30 
+Figure 3-1. Recommend Power Pin Decoupling Layout Design ... 31 
+Figure 3-2. Recommend Clock Pin Layout Design (passive crystal) ... 32 
+Figure 3-3. Recommend NRST Trace Layout Design ... 32 
+Figure 3-4. Recommend SHRTIMER multi-channel PWM Trace Layout Design ... 33 
+
+## List of Tables
+
+Table 1-1. Applicable Products ... 6 
+Table 2-1. VBOR threshold voltage Settings ... 12 
+Table 2-2. CKOUT0SEL[2:0] Control Bits ... 19 
+Table 2-3. CKOUT0SEL[3:0] Control Bits ... 19 
+Table 2-4. PLL spread spectrum clock generation (SSCG) characteristics ... 20 
+Table 2-5. The core voltage in Deep-sleep mode ... 21 
+Table 2-6. Bootloader Interactive Interface ... 22 
+Table 2-7. BOOT mode ... 22 
+Table 2-8. USART Important Pin Description ... 24 
+Table 2-9．fADC = 35MHz Relationship between sampling period and external input impedance ... 25 
+Table 2-10. DAC Related Pin Description ... 26 
+Table 2-11. JTAG download debug interface assignment ... 28 
+Table 2-12. SWD Download Debug Interface Assignment ... 29 
+Table 4-1. Package Description ... 35 
+Table 5-1. Revision history ... 36 
+
+### 1. Introduction
+
+The article is specially provided for developers of 32-bit general-purpose MCU GD32E5xx series based on Arm ® Cortex ®-M33 architecture. It provides an overall introduction to the hardware development of GD32E5xx series products, such as power supply, reset, clock, boot mode settings and download debugging. The purpose of this application notes is to allow developers to quickly get started and use GD32E5xx series products, and quickly develop and use product hardware, save the time of studying manuals, and speed up product development progress.
+
+This application note is divided into seven parts to describe:
+
+1. Power supply, mainly introduces the design of GD32E5xx series power management, 
+power supply and reset functions. 
+2. Clock, mainly introduces the functional design of GD32E5xx series high and low speed 
+clocks. 
+3. Boot configuration, mainly introduces the BOOT configuration and design of GD32E5xx 
+series. 
+4. Typical peripheral modules, mainly introduces the hardware design of the main functional 
+modules of the GD32E5xx series. 
+5. Download and debug circuit, mainly introduces the recommended typical download and 
+debug circuit of GD32E5xx series. 
+6. Reference circuit and PCB Layout design, mainly introduces GD32E5xx series hardware 
+circuit design and PCB Layout design notes. 
+7. Package description, mainly introduces the package forms and names included in the 
+GD32E5xx series. 
+
+This document also satisfies the minimum system hardware resources used in application development based on GD32E5xx series products.
+
+Table 1-1. Applicable Products Type Part Numbers
+
+MCU
+
+GD32E503xx series GD32E505xx series GD32E507xx series GD32E508xx series GD32E513xx series GD32E517xx series GD32E518xx series
+
+#### AN078
+
+### 2. Hardware design
+
+##### 2.1. Power supply
+
+The VDD / VDDA operating voltage range of GD32E5xx series products is 1.71 V ~ 3.6 V. For
+
+GD32E5xx series, there are three power domains, including VDD / VDDA domain, 1.1V domain, and Backup domain, as is shown in Figure 2-1. GD32E5xx Power supply overview.The
+
+VDD/VDDA domain is powered directly by the power supply, and an LDO is embedded in the
+
+VDD/VDDA domain to power the 1.1 V domain. The backup domain power supply VBAK can be powered by VDD or VBAT through the power switch Power Switch. When the VDD power supply is turned off, the power switch can switch the power supply of the backup domain to the VBAT pin. At this time, the backup domain is powered by the VBAT pin (battery).
+
+Figure 2-1. GD32E5xx Power supply overview
+
+PMU CTL
+
+FWDGT
+
+IRC40K
+
+LDO
+
+LXTAL
+
+RTC
+
+WKUPF
+
+IRC8M
+
+HXTAL
+
+PLLs
+
+POR/PDR
+
+BPOR
+
+ADC
+
+Backup Domain
+
+NRST
+
+VD D Domain
+
+WKUPx WKUPR
+
+VDD
+
+VBAT
+
+Power Switch
+
+3.3V
+
+VBAK
+
+AHB IPs
+
+1.1V Domain
+
+APB IPs
+
+SLEEPING SLEEPDEEP
+
+1.1V
+
+LVD: Low Voltage Detector LDO: Voltage Regulator POR: Power On Reset PDR: Power Down Reset
+
+BPOR: VBAK Power On Reset
+
+WKUPN
+
+DAC LVD
+
+VDDA
+
+3.3V
+
+VDDA Domain
+
+IRC48M
+
+BKP PAD
+
+Cortex-M33
+
+BREG
+
+BREG: Backup registers
+
+##### 2.1.1. Backup domain
+
+The backup domain supply voltage range is 1.71V ~ 3.6V. In order to ensure the content of the Backup domain registers and the RTC supply, when VDD supply is shut down, VBAT pin can be connected to an optional standby voltage supplied by a battery or by another source.
+
+The power switch is controlled by the Power Down Reset circuit in the VDD / VDDA domain.If there is no external battery-powered application, it is recommended to connect the VBAT pin to the ground through a 100nF capacitor and then connect it to the VDD pin.
+
+Note: If the VBAT pin is left floating, the Power Switch will switch VBAK to VDD after the MCU is powered on, and the internal VDD will directly supply power to the Backup domain.
+
+##### 2.1.2. VDD/VDDA domain
+
+The VDD / VDDA power domain supplies power to all areas except the backup domain. If VDDA is not equal to VDD, the voltage difference between the two is required to be less than 300mV (the internal VDDA and VDD are connected by back-to-back diodes). To avoid noise, VDDA can be connected to VDD through an external filter circuit, and the corresponding VSSA can be connected to VSS through a specific circuit (single-point grounding, through 0Ω resistors or magnetic beads, etc.).
+
+In order to improve the conversion accuracy of the ADC, the independent power supply for
+
+VDDA can make the analog circuit achieve better characteristics. There is a VREFP and VREFN pin (1.71 V≤VREFP≤VDDA, VREFN = VSSA) for ADC independent power supply on the large package.
+
+◼ The package chips with 100 pins and more contain VREFP and VREFN. VREFP can use an external reference power supply, or can be directly connected to VDDA, and VREFN must
+
+be connected to VSSA.
+
+◼ The 64-pin package chip has no VREFP and VREFN, it is directly connected to VDDA and VSSA internally, and all analog modules are powered by VDDA (including ADC/DAC)
+
+##### 2.1.3. Power supply design
+
+The system needs a stable power supply. There are some important things to pay attention to when developing and using:
+
+◼ The VDD pin must be connected with an external capacitor (N*100nF ceramic 
+capacitor + not less than 4.7uF tantalum capacitor, at least one VDD needs to be 
+connected to GND with a capacitor of not less than 4.7uF, and other VDD pins are 
+connected to 100nF). 
+◼ The VDDA pin must be connected with an external capacitor (10nF+1uF ceramic 
+capacitor is recommended). 
+◼ The VBAT pin must be connected to an external battery (1.71V ~ 3.6V). If there is no 
+external battery, it is recommended to connect the VBAT pin to the ground through a 
+100nF capacitor and then connect it to the VDD pin. 
+◼ VREFP pin can be directly connected to VDDA. If a separate external reference 
+voltage is used on VREF (2.6V ≤ VREFP ≤ VDDA, VREFN = VSSA), a 10nF+1uF 
+ceramic capacitor must also be connected to ground on the VREFP pin. 
+
+#### AN078
+
+Figure 2-2. GD32E5xx Recommended Power Supply Design
+
+VBAT
+
+4.7 μF + 11 * 100 nF
+
+100 nF
+
+VSS
+
+11 * VD D
+
+11 * VSS
+
+10 nF
+
+VDDA
+
+VSSA 1 μF
+
+10 nF
+
+VREFP
+
+VREFN 1 μF
+
+LQFP144
+
+VBAT
+
+4.7 μF + 5 * 100 nF
+
+100 nF
+
+VSS
+
+5 * VD D
+
+5 * VSS
+
+10 nF
+
+VDDA
+
+VSSA 1 μF
+
+10 nF
+
+VREFP
+
+VREFN 1 μF
+
+LQFP100
+
+VBAT
+
+4.7 μF + 4 * 100 nF
+
+100 nF
+
+VSS
+
+4 * VD D
+
+4 * VSS
+
+10 nF
+
+VDDA
+
+VSSA 1 μF
+
+LQFP64
+
+VBAT
+
+4.7 μF + 3 * 100 nF
+
+100 nF
+
+VSS
+
+3 * VD D
+
+3 * VSS
+
+10 nF
+
+VDDA
+
+VSSA 1 μF
+
+LQFP48
+
+Note:
+
+1. All decoupling capacitors must be placed close to the corresponding VDD, VDDA, VREFP,
+
+VBAT pins of the chip;
+
+2. When the MCU power supply voltage is unstable or there is a risk of voltage drop, it is recommended to adjust the 4.7uF capacitor not less than 10uF;
+
+3. VBAT can be directly connected to VDD, or it can be connected to an external battery
+
+according to the actual application;
+
+4. LQFP64, LQFP48: VREFP and VDDA are connected internally, VSSA and VREFN are
+
+connected internally;
+
+5. The power failure of VDD and VDDA is not synchronized, and the program may be lost;
+
+6. VBAT fluctuations may cause the BKP data or Flag to be abnormal.
+
+##### 2.2. Power supply detection and reset
+
+This section is based on the GD32E5xx series chips of version A, and the default VDD and
+
+VDDA pins remain connected, and are powered by the same power supply.
+
+GD32E5xx series reset control includes three resets: power reset, system reset and backup domain reset. A power reset is a cold reset, which resets all systems except the backup domain when the power is turned on. During the power and system reset process, NRST will maintain a low level until the reset is over. When the MCU cannot be executed, the NRST pin waveform can be monitored by an oscilloscope to determine whether the chip has been reset.
+
+In addition, the MCU reset source can be judged by querying the register RCU_RSTSCK (0x40021024). This register can only clear the flag bit after a power-on reset. Therefore, during use, after the reset source is obtained, the reset flag can be cleared through the RSTFC control bit. When the watchdog is reset or other reset events, it can be more accurately reflected in the RCU_RSTSCK register.
+
+Figure 2-3. RCU_RSTSCK Register
+
+Figure 2-4. System Reset Circuit
+
+Filter
+
+WWDGT_RSTn 
+FWDGT_RSTn 
+SW_RSTn 
+OB_STDBY_RSTn 
+OB_DPSLP_RSTn 
+
+POWER_RSTn
+
+NRST
+
+System Reset min 20 us pulse generator
+
+2.2.1. LVD
+
+The function of LVD is to detect whether the VDD/VDDA supply voltage is lower than the low voltage detection threshold (2.2 V ~ 2.9 V), which is configured by the LVDT[2:0] bits in the power control register (PMU_CTL0). LVD is enabled by setting the LVDEN bit. The LVDF bit located in the power status register (PMU_CS0) indicates whether VDD/VDDA is higher or lower than the LVD threshold voltage event. This event is connected to the 16th line of EXTI. The user can configure EXTI by Line 16 generates a corresponding interrupt. (LVD interrupt signal depends on the rising or falling edge configuration of EXTI line 16). The value of the hysteresis voltage Vhyst is 100mV.
+
+LVD application: When the MCU power supply is subject to external interference, such as a voltage drop, we can set the low voltage detection threshold (the threshold is greater than the PDR value) through LVD. Once it falls to the threshold, the LVD interrupt is turned on, which can be used in the interrupt function. Set operations such as soft reset to avoid other exceptions from the MCU.
+
+#### AN078
+
+Figure 2-5. LVD Threshold Waveform
+
+VDD / VDDA
+
+LVD output
+
+t
+
+LVD threshold
+
+100mV
+
+Vhyst
+
+##### 2.2.2. POR / PDR
+
+The chip integrates a POR/PDR (power-on/power-down reset) circuit to detect VDD/VDDA and generate a power reset signal to reset the entire chip except the backup domain when the voltage is lower than a certain threshold. VPOR represents the threshold voltage of power-on reset, the typical value is about 1.56V, VPDR represents the threshold voltage of power-down reset, and the typical value is about 1.52V. The value of the hysteresis voltage Vhyst is about
+
+400mV.
+
+Figure 2-6. Power-on/power-down reset waveforms
+
+VDD/VDDA
+
+VPOR tRSTTEMPO 2ms
+
+Power Reset (Active Low)
+
+t
+
+VPDR
+
+40mV
+
+Vhyst
+
+2.2.3. BOR
+
+GD32E5xx series MCU has an integrated BOR circuit, which is disabled by default. The BOR function can be disabled, enabled, and set with the option byte BOR_TH. When BOR is enabled and the detected VDD voltage is lower than the BOR threshold voltage, a power reset signal is generated and the entire chip except the backup domain is reset. Figure 2-7. BOR Threshold Waveform shows the relationship between the supply voltage and the BOR reset signal. VBOR represents the BOR reset threshold voltage, which is defined in the option byte BOR_TH. The value of the hysteresis voltage Vhyst is 100mV.
+
+Figure 2-7. BOR Threshold Waveform
+
+VBOR tRST(TEMPO) 2ms
+
+t
+
+100mV
+
+Vhyst
+
+VPOR
+
+VPDR
+
+...
+
+Power Reset （Active Low）
+
+VDD / VDDA
+
+...
+
+BOR threshold You can set three different levels by using the BOR_TH option. Table 2-1 describes the mapping between the levels.
+
+Table 2-1. VBOR threshold voltage Settings Symbol Conditions Typ
+
+BOR_TH=00(BOR level3)
+
+Falling edge 2.8 V Rising edge 2.9 V
+
+BOR_TH=01(BOR level2)
+
+Falling edge 2.5 V Rising edge 2.6 V
+
+BOR_TH=10(BOR level1)
+
+Falling edge 2.2 V Rising edge 2.3 V BOR_TH=11(BOR off) - -
+
+Whether BOR is enabled or not, the POR/PDR (power-on/power-off reset) circuit is always in the detection state. Therefore, regardless of whether BOR is enabled or not, the power reset level will be pulled up when VDD/VDDA rises to VPOR. When BOR is enabled, it will quickly reset the power to be pulled down, POR/PDR is in the working state of detecting VDD/VDDA > VPOR, the power reset level will be pulled up, the power reset level will be pulled up again, and the BOR will then reset the power level to pull down, so the cycle, the NRST pin formed square wave (sawtooth wave). When the VDD/VDDA voltage is greater than VBOR, the BOR will no longer pull the power reset level down, and the power reset will remain high. When the VDD/VDDA voltage is greater than VPOR and less than VBOR, square wave (sawtooth wave) will appear, and its schematic diagram is shown in Figure 2-7. BOR Threshold Waveform.
+
+##### 2.2.4. NRST Pin
+
+MCU integrates a power-up/power-down reset circuit. When designing an external reset circuit, a capacitor (typical value of 100nF) must be placed on the NRST pin to ensure that the power on the NRST pin generates a low pulse delay of at least 20us for completing effective power-on reset process.
+
+Figure 2-8. Recommend External Reset Circuit
+
+NRST
+
+VD D
+
+External reset circuit
+
+10 kΩ RPU
+
+VD D
+
+GND
+
+K 100 nF
+
+GD32E5xx
+
+Note:
+
+1. The pull-up resistor is recommended to be 10kΩ, so that voltage interference will not 
+cause the chip to work abnormally; 
+2. If the influence of static electricity is considered, an ESD protection diode can be placed 
+at the NRST pin; 
+3. Although there is a hardware POR circuit inside the MCU, it is still recommended to add 
+an external NRST reset resistor-capacitor circuit; 
+4. If the MCU starts abnormally (due to voltage fluctuations, etc.), the capacitance value of 
+NRST to ground can be appropriately increased, and the MCU reset completion time can 
+be extended to avoid the abnormal power-on sequence area. 
+
+Due to the threshold voltage characteristics of the MOS tube, when VDD/VDDA < 0.7V during the chip power-on and power-off process, pulling down the MOS tube inside the chip will not
+
+pull down the NRST pin. as shown in Figure 2-9. NRST pin power-on and power-off MOS tube pulse diagram.
+
+Figure 2-9. NRST pin power-on and power-off MOS tube pulse diagram
+
+tRST(TEMPO) 2ms
+
+NRST
+
+t
+
+VDD / VDDA
+
+About 0.7 V
+
+VBOR / VPOR
+
+Due to the difference in charging and discharging speed, the pulse duration of the falling edge is longer than that of the rising edge, and the duration of both is ms class.
+
+##### 2.3. Clock
+
+GD32E5xx series has a complete clock system inside, and you can choose a suitable clock source according to different applications. The main features of the clock:
+
+◼ 4-32 MHz external high-speed crystal oscillator (HXTAL) 
+◼ Internal 8 MHz RC oscillator (IRC8M) 
+◼ 32.768 kHz external low-speed crystal oscillator (LXTAL) 
+◼ Internal 48 MHz RC oscillator (IRC48M) 
+◼ Internal 40 kHz RC oscillator (IRC40K) 
+◼ PLL clock source can be selected from HXTAL、IRC8M or IRC48M 
+◼ HXTAL clock monitor 
+
+GD32E503xx microcontrollers where the flash memory density ranges between 256 and 512 Kbytes are called High-density devices (GD32E5xx_HD).
+
+GD32E505xx、GD32E507xx、GD32E508xx microcontrollers are called connectivity line devices (GD32E5xx_CL).
+
+#### AN078
+
+Figure 2-10. GD32E503xx Clock Tree
+
+/2
+
+4-32 MHz HXTAL
+
+8 MHz IRC8M ×2,3,4 ,64 PLL
+
+Clock Monitor
+
+PLLSEL PLLMF
+
+0 
+1 
+00 
+
+01
+
+10
+
+C K_IRC8M
+
+C K_HXTAL
+
+CK_PLL C K_SYS
+
+180 MHz max
+
+AHB Prescaler ÷1,2...512
+
+CK_AHB
+
+180 MHz max
+
+APB1 Prescaler ÷1,2,4,8,16
+
+TIMER1,2,3,4,5,6, 
+11,12,13 i f(APB1 
+prescale =1)x1 
+else x 2 
+
+APB2 Prescaler ÷1,2,4,8,16
+
+TIMER0,7,8,9,10 
+i f(APB2 prescale 
+=1)x1 
+else x 2 
+
+ADC Prescaler ÷2,4,6， 8,12,16
+
+C K_APB2
+
+180 MHz max
+
+Peripheral enable
+
+PCLK2 to APB2 peripherals
+
+CK_APB1
+
+90 MHz max
+
+Peripheral enable
+
+PCLK1 to APB1 peripherals
+
+TIMERx enable
+
+C K_TIMERx to TIMER0,7,8,9,10
+
+TIMERx enable
+
+C K_TIMERx 
+to 
+TIMER1,2,3,4,5,6,1 
+1,12,13 
+
+C K_ADCX to ADC0,1,2 35 MHz max
+
+AHB enable
+
+HCLK (to AHB bus,Cortex-M33,SRAM,DMA)
+
+EXMC enable (by hardware)
+
+C K_EXMC (to EXMC)
+
+÷8
+
+C K_CST
+
+(to Cortex-M33 SysTick) 
+FCLK 
+(free running clock) 
+USBD 
+Presacaler 
+/1,1.5,2,2.5 
+3,3.5,4 
+
+32.768 KHz LXTA
+
+11
+
+10
+
+01
+
+40 KHz IRC40K
+
+C K_RTC
+
+C K_FWDGT (to RTC)
+
+(to FWDGT)
+
+/128
+
+C K_OUT0
+
+SCS[1:0]
+
+RTCSRC[1:0]
+
+PREDV0
+
+CK_PLL
+
+CK_HXTAL
+
+CK_IRC8M
+
+C K_SYS
+
+111 /2 
+0xx NO CLK 
+100 
+101 
+110 
+
+CKOUTSEL[2:0]
+
+/1 or /2
+
+C K_FMC
+
+48 MHz IRC48M
+
+CRS
+
+CK_CTC
+
+1
+
+0
+
+C K_IRC48M
+
+PLLPRESEL
+
+ADC Prescaler ÷5,6,10,20
+
+0
+
+1
+
+ADCPSC[3]
+
+CK_IRC48M (to FMC)
+
+0 CK_SHRTIMER
+
+1
+
+SHRTIMERSEL
+
+C K_APB2 C K_SYS
+
+C K_PLLSRC (to USBD)
+
+C K_USBD
+
+C K48MSEL
+
+C K_SDIO
+
+(to SDIO) SDIO enable
+
+I2S enable
+
+C K_I2S (to I2S1,2)
+
+C K_USART5
+
+00
+
+USART5SEL[1:0]
+
+CK_APB2 
+C K_SYS 01 
+10 
+11 
+
+C K_LXTAL C K_IRC8M
+
+C K_I2C2
+
+00
+
+I2C2SEL[1:0]
+
+CK_APB1 C K_SYS 01 C K_IRC8M 1x
+
+0
+
+1
+
+#### AN078
+
+Figure 2-11. GD32E505xx / GD32E507xx / GD32E508xx Clock Tree
+
+/2
+
+4-32 MHz HXTAL
+
+8 MHz IRC8M ×2,3,4 ,64 PLL
+
+Clock Monitor
+
+PLLSEL PLLMF
+
+0 
+1 
+00 
+
+01
+
+10
+
+C K_IRC8M
+
+C K_HXTAL
+
+C K_PLL C K_SYS
+
+180 MHz max
+
+AHB Prescaler ÷1,2...512
+
+C K_AHB
+
+180 MHz max
+
+APB1 Prescaler ÷1,2,4,8,16
+
+TIMER1,2,3,4,5,6, 
+11,12,13 i f(APB1 
+prescale =1)x1 
+else x 2 
+
+APB2 Prescaler ÷1,2,4,8,16
+
+TIMER0,7,8,9,10 
+i f(APB2 prescale 
+=1)x1 
+else x 2 
+
+ADC Prescaler ÷2,4,8,12,16
+
+C K_APB2
+
+180 MHz max
+
+Peripheral enable
+
+PCLK2 to APB2 peripherals
+
+C K_APB1
+
+90 MHz max
+
+Peripheral enable
+
+PCLK1 to APB1 peripherals
+
+TIMERx enable
+
+C K_TIMERx to TIMER0,7,8,9,10
+
+TIMERx enable
+
+C K_TIMERx 
+to 
+TIMER1,2,3,4,5,6,1 
+1,12,13 
+
+C K_ADCX to ADC0,1,2 35 MHz max
+
+AHB enable
+
+HCLK (to AHB bus,Cortex-M33,SRAM,DMA)
+
+EXMC enable (by hardware)
+
+C K_EXMC (to EXMC)
+
+÷8
+
+C K_CST
+
+(to Cortex-M33 SysTick) 
+FCLK 
+(free running clock) 
+
+USBHS Presacaler /1,1.5,2,2.5 3,3.5,4
+
+C K_USBHS (to USBHS)
+
+32.768 KHz LXTA
+
+11
+
+10
+
+01
+
+40 KHz IRC40K
+
+C K_RTC
+
+CK_FWDGT (to RTC)
+
+(to FWDGT)
+
+/128
+
+CK_OUT0
+
+SCS[1:0]
+
+RTCSRC[1:0]
+
+PREDV0 
+0 
+1 
+
+C K_PLL
+
+CK_HXTAL
+
+C K_IRC8M
+
+CK_SYS
+
+0111 /2 
+00xx NO CLK 
+0100 
+0101 
+0110 
+
+CKOUT0SEL[3:0]
+
+48 MHz/ 
+60MHz 
+EXT1 
+/2 
+1000 
+1001 
+1010 
+
+C K_PLL1 C K_PLL2
+
+1011 C K_PLL2 
+/1,2,3 
+15,16 
+PREDV1 
+
+×8,9,10 1 2,,14,16,20 PLL1
+
+PLL1M F
+
+PLL2M F
+
+×8,9,10 ,14 
+,16,18 ,32, 
+34...64,80 
+PLL2 
+
+C K_PLL1
+
+C K_PLL2 
+/1,2,3 
+15,16 
+x2 
+
+I2SxSEL
+
+0 
+1 
+
+C K_I2Sx
+
+/2,20 
+0 
+1 
+
+C K_MACTX
+
+0
+
+1 C K_MACRX
+
+C K_FMC
+
+Ethernet PHY
+
+EXT1 to C K_OUT
+
+C K_MACRMII
+
+PLLUSBMF
+
+MII_RMII_SEL
+
+48 MHz IRC48M
+
+CRS
+
+CK_CTC
+
+1
+
+0
+
+C K_IRC48M
+
+PLLPRESEL
+
+ADC Prescaler ÷5,6,10,20
+
+0
+
+1
+
+ADCPSC[3]
+
+CK_IRC48M ×16,17 , 12 7 P L LU S B /1,2,3 15
+
+0 
+1 
+1 
+
+0
+
+C K_IRC48M
+
+PLLUSBPRE DVSEL
+
+PLLUSBPREDV
+
+C K_HXTAL
+
+CK_PLL1
+
+48 0M H z m ax /2,4 1 6 0
+
+1
+
+PHSEL
+
+00
+
+01
+
+10
+
+11
+
+USBHS PHY clock 24Mhz to 60Mhz
+
+C K_PLL2
+
+C K_PLLUSB
+
+(to USBHS in high-speed mode)
+
+(to FMC)
+
+0 C K_SHRTIMER
+
+1
+
+SHRTIMERSEL
+
+C K_APB2 C K_SYS
+
+0
+
+1 
+1100 
+1101 
+1110 
+
+C K_IRC48M
+
+C K_PLLSRC
+
+From USBHS /8 C K_IRC48M /32 C K_PLLU
+
+to I2S
+
+I2S enable
+
+USBHSDV
+
+PLLUSBPR ESEL
+
+CK48MSEL[1:0]
+
+USBHSSEL
+
+PREDV0SEL
+
+C K_USART5
+
+00
+
+USART5SEL[1:0]
+
+C K_APB2 
+C K_SYS 01 
+10 
+11 
+
+CK_LXTAL C K_IRC8M
+
+C K_I2C2
+
+00
+
+I2C2SEL[1:0]
+
+CK_APB1 C K_SYS 01 C K_IRC8M 1x
+
+##### 2.3.1. External high-speed crystal oscillator clock (HXTAL)
+
+4-32MHz external high-speed crystal oscillator (passive crystal) can provide accurate main clock for the system. The crystal for that specific frequency must be placed close to the HXTAL pin, and the external resistors and matching capacitors connected to the crystal must be adjusted according to the chosen oscillator parameters. HXTAL can also use the bypass input mode to input the clock source (1-50MHz active crystal oscillator, etc.). When the bypass input is used, the signal is connected to OSC_IN, and OSC_OUT remains floating. The
+
+Bypass function of HXTAL needs to be turned on in software (enable the HXTALBPS bit in
+
+RCU_CTL).
+
+Figure 2-12. HXTAL External Crystal Circuit
+
+OSCIN OSCOUT
+
+C1 C2
+
+Crystal
+
+GND
+
+GD32E5xx
+
+Figure 2-13. HXTAL External Clock Circuit
+
+OSCIN OSCOUT
+
+External clock
+
+GD32E5xx
+
+Note: 
+1. When using the bypass input, the signal is input from OSC_IN, and OSC_OUT remains 
+floating. 
+2. For the size of the external matching capacitor, please refer to the formula: C1 = C2 = 2*(CLOAD - CS), where CS is the stray capacitance of the PCB and MCU pins, with a typical value of 10pF. When it is recommended to use an external high-speed crystal, try to choose a crystal load capacitance of about 20pF, so that the external matching capacitors C1 and C2 can be 20pF, and the PCB layout should be as close to the crystal pin as possible. 
+3. CS is the parasitic capacitance on the PCB board traces and IC pins. The closer the crystal is to the MCU, the smaller the CS, and vice versa. Therefore, in practical applications, when the crystal is far away from the MCU, causing the crystal to work abnormally, the external matching capacitor can be appropriately reduced. 
+4. When using an external high-speed crystal, it is recommended to connect a 1MΩ resistor in parallel at both ends of the crystal to make the crystal easier to vibrate. 
+5. Accuracy: external active crystal oscillator > external passive crystal > internal IRC16M. 
+6. When the active crystal oscillator is used normally, Bypass will be turned on. At this time, the high level is required to be no less than 0.7 VDD, and the low level is no more than 0.3 VDD. 
+7. The traces connecting the resonator to the MCU clock pins may cause inconsistent lengths of the traces connected to the OSC_OUT and OSC_IN pins due to the space constraints of the PCB layout. This will make the stray capacitances introduced by the two PCB traces inconsistent, so that the load capacitances on both sides of the resonator cannot be equal in value, and there needs to be a difference to match the actual PCB 
+
+board. In this case, it is recommended to contact the resonator manufacturer to calculate the actual value. 8. The HXTAL circuit is so sensitive that it may misidentify burr signals as crystal signals, causing the program to run amiss.
+
+##### 2.3.2. External low-speed crystal oscillator clock (LXTAL)
+
+LXTAL crystal is a 32.768KHz low-speed external crystal (passive crystal), which can provide a low-power and high-precision clock source for RTC. The RTC module of the MCU is equivalent to a counter. The accuracy will be affected by the crystal performance, matching capacitance and PCB material. If you want to obtain better accuracy, it is recommended to connect PC13 to the timer input capture pin during circuit design. TIMER to calibrate LXTAL, and set the frequency division register of RTC according to the calibration situation. LXTAL can also support bypass clock input (active crystal oscillator, etc.), which can be enabled by configuring the LXTALBPS bit in RCU_BDCTL.
+
+Figure 2-14. LXTAL External Crystal Circuit
+
+OSC32IN OSC32OUT
+
+C1 C2
+
+Crystal
+
+GND
+
+GD32E5xx
+
+Figure 2-15. LXTAL External Clock Circuit
+
+OSC32IN OSC32OUT
+
+External clock
+
+GD32E5xx
+
+Note: 
+1. When using the bypass input, the signal is input from OSC32_IN, and OSC32_OUT 
+remains floating. 
+
+2. For the size of the external matching capacitor, please refer to the formula: C1 = C2 = 2*(CLOAD - CS), where CS is the stray capacitance of the PCB and MCU pins, the empirical value is between 2pF-7pF, and 5pF is recommended as a reference value calculation. When it is recommended to use an external crystal, try to choose a crystal load
+
+capacitance of about 10pF, so that the externally connected matching capacitors C1 and C2 can be 10pF, and the PCB layout should be as close to the crystal pin as possible. 3. When the RTC selects IRC40K as the clock source and uses VBAT for external
+
+independent power supply, if the MCU is powered off at this time, the RTC will stop counting. After re-powering, the RTC will continue to count up with the previous count value. If the application needs to use VBAT to power the RTC, the RTC can still time normally, and the RTC must select LXTAL as the clock source.
+
+##### 2.3.3. Clock Output Capability (CKOUT)
+
+For GD32E503xx series MCU, you can select different clock signal output by configuring the CKOUT0SEL[2:0] bits of the clock register RCU_CFG0, and the corresponding GPIO pin PA8 needs to be configured as a multiplexing function to output the selected signal, as shown in the following:
+
+Table 2-2. CKOUT0SEL[2:0] Control Bits CKOUT0SEL[2:0] Clock Source 0xx NA 100 CK_SYS 101 CK_IRC8M 110 CK_HXTAL 111 CK_PLL/2
+
+For GD32E505xx / GD32E507xx / GD32E508xx series MCU, you can select different clock signal output by configuring the CKOUT0SEL[3:0] bits of the clock register RCU_CFG0, and the corresponding GPIO pin PA8 needs to be configured as a multiplexing function to output the selected signal, as shown in the following:
+
+Table 2-3. CKOUT0SEL[3:0] Control Bits CKOUT0SEL[3:0] Clock Source 00xx NO CLK 0100 CK_SYS 0101 CK_IRC8M 0110 CK_HXTAL 0111 CK_PLL/2 1000 CK_PLL1 1001 CK_PLL2/2 1010 EXT1 1011 CK_PLL2 1100 CK_IRC48M 1101 CK_IRC48M/8 1110 CK_PLLUSB/32
+
+##### 2.3.4. HXTAL Clock Monitor (CKM)
+
+Set the HXTAL clock monitoring enable bit CKMEN in the control register RCU_CTL, HXTAL can enable the clock monitoring function. This function must be enabled after the HXTAL start up delay has elapsed and disabled after the HXTAL has been stopped. Once the HXTAL fault
+
+is detected, the HXTAL will be automatically disabled, and the HXTAL clock blocking interrupt flag bit CKMIF in the interrupt register RCU_INT will be set to '1' to generate an HXTAL fault event. The interrupt caused by this fault is connected to the non-maskable interrupt NMI of the Cortex-M33.
+
+Note: If HXTAL is selected as the system or PLL clock source, HXTAL failure will cause the IRC8M to be selected as the system clock source and the PLL will be automatically disabled. The clock source of the RTC needs to be reconfigured.
+
+##### 2.3.5. PLL Spread Spectrum (SSCG)
+
+In order to reduce EMI interference, the GD32E5xx PLL integrates the clock spread spectrum function (only applicable to the main PLL), which effectively reduces the energy of the main clock frequency and its odd harmonics. According to the set modulation frequency fmod and modulation peak mdamp (Refer toTable 2-4. PLL spread spectrum clock generation (SSCG) characteristics).
+
+Calculate MODCNT and MODSTEP by formula 2-1 and formula 2-2, and fill in the PLL clock spread spectrum control register (RCU_PLLSSCTL). Note that the product of MODCNT and MODSTEP cannot be greater than 2^15-1. If it is greater than that, it is necessary to reduce the modulation peak mdamp and recalculate it.
+
+Table 2-4. PLL spread spectrum clock generation (SSCG) characteristics Symbol Parameter Conditions Min Typ Max Unit fmod Modulation frequency — — — 10 kHz mdamp Peak modulation amplitude — — — 2 % MODCNT* MODSTEP — — — — 2 15-1 —
+
+MODCNT and MODSTEP are obtained by the following formula: MODCNT=round(fPLLIN/4/fmod) (2-1) MODSTEP = round(mdamp*PLLN*2
+
+14
+
+/(MODCNT*100)) (2-2)
+
+fPLLIN is the PLL input clock frequency, fmod is the spread spectrum modulation frequency, mdamp is the spread spectrum modulation amplitude (expressed as a percentage), and PLLN is the PLL clock frequency multiplication factor.
+
+For example, PLL reference clock source HXTAL = 8MHz, prescaler PLLM = 4, then fPLLIN = 2MHz, set PLLN = 200 (at this time, the VCO frequency is 400MHz, and the system clock is 200MHz by dividing by two), the spread spectrum modulation frequency is 10KHz, and the modulation amplitude is 2 %, then MODCNT = 50 and MODSTEP = 1311 are calculated. At this time, MODCNT * MODCNT > 2^15 - 1, which cannot be achieved. Reduce the modulation amplitude to 1%, then MODCNT = 50, MODSTEP = 655, at this time MODCNT * MODCNT = 32750 < 2^15 - 1 meets the requirements.
+
+According to the setting of SS_TYPE in the register RCU_PLLSSCTL, two types of spread spectrum modulation can be selected, namely center spread spectrum and downward spread spectrum, and the PLL output frequency will change as the following waveform.
+
+Figure 2-16. Center Spread Spectrum
+
+Frequency(PLL_OUT)
+
+F0
+
+tmode 2xtmode Time
+
+md md
+
+Figure 2-17. Down Spread Spectrum
+
+Frequency(PLL_OUT)
+
+F0
+
+tmode 2xtmode Time
+
+2xmd
+
+##### 2.3.6. Voltage control
+
+The core voltage can be changed by configuring the DSPLPVS[2:0] bits of the clock register RCU_DSV.
+
+Table 2-5. The core voltage in Deep-sleep mode DSLPVS[2:0] Deep-sleep mode voltage (V) 000 1.0 001 0.9 010 0.8 011 0.7
+
+##### 2.4. Startup Configuration
+
+The GD32E5xx series provides three boot modes, which can be selected by the BOOT0 bit and the BOOT1 pin to determine the boot option.Table 2-7. BOOT mode are three startup configuration mode. When designing the circuit, run the user program, the BOOT0 pin cannot be left floating, it is recommended to connect a 10kΩ resistor to GND.Figure 2-18.
+
+#### AN078
+
+Recommend BOOT Circuit Design is recommended circuit design; when running the System Memory to update the program, you need to connect the BOOT0 pin to high and the BOOT1 pin to low. After the update is completed, the user program can be run after the BOOT0 is connected to a low level; the SRAM execution program is mostly used in the debugging status.
+
+The embedded Bootloader is stored in the system storage space for reprogramming the FLASH memory. In the GD32E5xx device, Bootloader can interact with the outside world through USART0, USART1 or USB. The details are shown in Table 2-6. Bootloader Interactive Interface.
+
+Table 2-6. Bootloader Interactive Interface
+
+Product MCU Part Numbers Bootloader Interactive Interface
+
+HD GD32E503xx USART0(PA9 PA10)
+
+GD32E505xx
+
+USART0(PA9 PA10) USART1(PD5 PD6) USB(PA9 PA11 PA12)
+
+CL
+
+GD32E507xx
+
+USART0(PA9 PA10) USART1(PD5 PD6) USB(PA9 PA11 PA12)
+
+USART0(PA9 PA10) USART1(PD5 PD6) USB(PA9 PA11 PA12)
+
+GD32E508xx
+
+| | Main Flash Memory | | X | | 0 | | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | System Memory | | 0 | | 1 | | | | |
+| | On Chip SRAM | | 1 | | 1 | | | | |
+
+Table 2-7. BOOT mode BOOT mode BOOT1 BOOT0
+
+Figure 2-18. Recommend BOOT Circuit Design
+
+VD D
+
+10 kΩ
+
+BOOT1
+
+GND
+
+VD D
+
+10 kΩ
+
+BOOT0
+
+GND
+
+GD32E5xx
+
+Note: 1. After the MCU is running, if the BOOT state is changed, it will take effect after the system
+
+#### AN078
+
+is reset. MCU. 2. Once the BOOT1 pin state is sampled, it can be released for other purposes.
+
+##### 2.5. Typical Peripheral Modules
+
+##### 2.5.1. GPIO Circuit
+
+The largest package GPIO interface includes 7 groups of general-purpose input/output ports, each group of ports provides up to 16 general-purpose input/output pins, which are PA0 ~ PA15, PB0 ~ PB15, PC0 ~ PC15, PD0 ~ PD15, PE0 ~ PE15, PF0 ~ PF15 and PG0 ~ PG15, each pin can be independently configured through registers, the basic structure of GPIO port is shown in Figure 2-19. Basic structure of standard IO.
+
+Figure 2-19. Basic structure of standard IO
+
+Write
+
+Bit Operate Registers
+
+| | | Registers | | Output | | Output driver | |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| | | | | Control | | | VDD |
+| | Read/Write | | Register | | | | |
+
+Output Control
+
+VDD
+
+Alternate Function Output
+
+ESD protection
+
+Vss
+
+Analog ( Input / Output )
+
+I/O pin
+
+Alternate Function Input
+
+Vss
+
+Read
+
+Input Status Register
+
+Schmitt trigger
+
+Input driver
+
+Note: 
+1. The IO port is divided into 5V tolerant and non-5V tolerant. When using, pay attention to distinguish the IO port withstand voltage. For the GD32E5xx chip, except PA4 and PA5, the two pins are non-5V tolerant pins, and the other pins are 5V tolerant. 
+2. When the 5V-tolerant IO port is directly connected to 5V, it is recommended that the IO port be configured in open-drain mode and externally pull up to work. 
+3. After the IO port is powered on and reset, the default mode is floating input, and the level characteristics are uncertain. In order to obtain more consistent power consumption, it is recommended that all IO ports be configured as analog inputs and then modified to the corresponding mode according to application requirements (chip Ports that are not 
+
+exported internally also need to be configured). 
+4. To improve EMC performance, it is recommended to pull up or pull down the unused IO pins by hardware. 
+5. The four IO ports of PC13, PC14, PC15 have weak drive capability and limited output current capability(about 3mA). When configured in output mode, their working speed cannot exceed 2MHz. 
+6. The same label PIN in multiple groups can only configure one port as an external interrupt. For example, PA0, PB0, and PC0 only support one of the three IO ports to generate external interrupts, and do not support three external interrupt modes. 
+7. When multiple I/OS flip and VCORE fluctuates, the number of I/O fluctuations and I/O output current must be limited. 
+
+##### 2.5.2. USART Circuit
+
+Universal Synchronous Asynchronous Receiver Transmitter (USART) provides a flexible and convenient serial data exchange interface, and data frames can be transmitted in full-duplex or half-duplex, synchronous or asynchronous mode. The USART provides a programmable baud rate generator that divides the system clock to generate the specific frequency required for USART transmission and reception.
+
+USART not only supports the standard asynchronous transceiver mode, but also implements some other types of serial data exchange modes, such as infrared coding specification, SIR, smart card protocol, LIN, and synchronous single-duplex mode. It also supports multiprocessor communication and Modem flow control operation (CTS/RTS). Data frames support transmission from the LSB or MSB. Both the polarity of the data bits and the TX/RX pins can be flexibly configured.
+
+USART supports DMA function to realize high-speed data communication.
+
+TX
+
+| Pin | | Type | Description |
+| --- | --- | --- | --- |
+| RX | | Input | Receive data |
+| | (Single-Wire Mode/Smart Card Mode) | Output I/O | Send data, when USART is enabled, if no data is |
+| CK | | Output | |
+| nCTS | | Input | Hardware flow control mode send enable signal |
+| nRTS | | Output | Hardware flow control mode send request signal |
+
+| Pin | Type | | | Description |
+| --- | --- | --- | --- | --- |
+| RX | Input | | | Receive data |
+| | (Single-Wire Mode/Smart Card Mode) | Send data, when USART is enabled, if no data is | sent, the default is high level. | |
+| | | | Serial clock signal for synchronous | communication |
+| nCTS | Input | Hardware flow control mode send enable signal | | |
+| nRTS | Output | Hardware flow control mode send request signal | | |
+
+Table 2-8. USART Important Pin Description Serial clock signal for synchronous communication
+
+##### 2.5.3. ADC Circuit
+
+The GD32E5xx series integrates a 12-bit SAR ADC, which has up to 18 channels and can measure 16 external and 2 internal signal sources. The internal signal is the temperature sensor channel (ADC0_CH16) and the internal reference voltage input channel (ADC0_CH17). The temperature sensor reflects the change in temperature and is not suitable
+
+for measuring absolute temperature. If accurate temperature measurement is required, an external temperature sensor must be used. The internal reference voltage VREFINT provides a regulated voltage output (1.1V) to the ADC and is internally connected to ADC0_IN17.
+
+If the ADC collects the external input voltage during use, if the sampled data fluctuates greatly, it may be due to the interference caused by power supply fluctuations. You can calibrate by sampling the internal VREFINT and then calculate the externally sampled voltage.
+
+When designing the ADC circuit, it is recommended to place a small capacitor at the ADC input pin. It is recommended to place a small capacitor of 500pF. ADC supply requirements: the typical power supply voltage is 3.3V. When supply voltage is 1.62V to 2.4V, ADC maximum frequency is 14MHz, When supply voltage is 2.4V to 3.6V, ADC maximum frequency is 35MHz.
+
+Figure 2-20. ADC Acquisition Circuit Design
+
+ADC
+
+ADC Acquisition
+
+RAIN
+
+GD32 MCU
+
+CADC
+
+VSSA
+
+RADC
+
+SW
+
+VIN CIN
+
+When fADC = 35MHz, the relationship between the input impedance and the sampling period is as follows. In order to obtain better conversion results, it is recommended to reduce the frequency of fADC as much as possible during use, and select a larger value for the sampling period. When designing external circuits, try to reduce the input Impedance, if necessary, use the op amp to follow to reduce the input impedance.
+
+Table 2-9．fADC = 35MHz Relationship between sampling period and external input 
+impedance 
+Ts (cycles) ts (μs) RAIN max (kΩ) 
+1.5 0.043 0.6 
+7.5 0.21 5.0 
+13.5 0.39 9.4 
+28.5 0.81 20.5 
+41.5 1.19 30.0 
+55.5 1.59 40.0 
+71.5 2.04 52.0 
+239.5 6.84 175.8 
+
+##### 2.5.4. DAC Circuit
+
+The digital/analog converter of GD32E5xx series MCU can convert 12-bit digital data to
+
+AN078 GD32E5xx Hardware Development Guide voltage output on external pins. Data can be in 8-bit or 12-bit mode, left-justified or right justified. When external triggering is enabled, DMA can be used to update digital data on the input. At the output voltage, higher drive capability can be obtained by enabling the DAC output buffer. The two DACs can work independently or concurrently.
+
+| | Name | | | | Description | | Signal type | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | VDDA | | | Analog power | | | Input, Analog power | | |
+| | VSSA | | | Analog power ground | | | Input, Analog power ground | | |
+
+Table 2-10. DAC Related Pin Description
+
+DAC positive reference voltage,
+
+VREFP
+
+2.4V ≤ VREFP ≤ VDDA
+
+Input, Analog positive reference voltage DAC_OUTx DACx analog output Analog output signal
+
+Before enabling the DAC module, the GPIO port (PA4 corresponds to DAC0, PA5 corresponds to DAC1) should be configured in analog mode.
+
+##### 2.5.5. USB Circuit
+
+GD32E505xx / GD32E507xx / GD32E508xx interconnected MCU has a built-in USB interface, which is a USBFS module. The USB protocol requires a clock accuracy of not less than 500ppm, and the internal clock may not be able to achieve such accuracy, so it is recommended to use an external crystal or an active crystal oscillator as the USB module clock source when using the USB function.
+
+GD32E503x can only be designed as a USB device. When designing the circuit, a controllable 1.5K pull-up resistor needs to be designed for the DP data line. The recommended USB Device reference circuit is shown in Figure 2-21. Recommend USB-Device Reference Circuit. In order to improve the ESD performance of USB, it is recommended to design a resistance-capacitance discharge isolation circuit for the USB case.
+
+Figure 2-21. Recommend USB-Device Reference Circuit
+
+PA9 0 Ω
+
+VBUS
+
+PA11 
+PA12 
+
+GND
+
+Shield
+
+R C
+
+USB INTERFACE
+
+GND
+
+Recommendation: R = 1MΩ, C = 4700pF
+
+The USB module of GD32F505xx / GD32F507xx interconnected MCU can be designed as
+
+#### AN078
+
+both USB device and USB host. The recommended circuit when designed as Device is shown in Figure 2-22. Recommend USB-Device (USBFS) Reference Circuit; when designed as
+
+Device, if PA9 is connected to VBUS, the DP line does not need an external 1.5K pull-up resistor; if PA9 is not connected To VBUS, if the VBUSIG control bit in the USBFS_GCCFG register has been configured, the USB_DP data line can not be connected with a 1.5K pull up resistor. If this register is not configured, the USB_DP data line needs to be connected with a 1.5K pull-up resistor. In order to improve the ESD performance of USB, it is recommended to design a resistance-capacitance discharge isolation circuit for the USB case.
+
+When designing in host mode, the recommended circuit is shown in Figure 2-23.
+
+Recommend USB-Host Reference Circuit
+
+Figure 2-22. Recommend USB-Device (USBFS) Reference Circuit
+
+VBUS
+
+R C
+
+USB INTERFACE
+
+DM DP ID GND
+
+Shield
+
+PA11 
+PA12 
+
+GND
+
+GND ×
+
+0 Ω
+
+PA9
+
+Recommendation: R = 1MΩ, C = 4700pF
+
+Figure 2-23. Recommend USB-Host Reference Circuit
+
+VBUS
+
+R C
+
+USB INTERFACE
+
+DM DP ID GND
+
+Shield
+
+PA11 
+PA12 
+
+GND
+
+GND × +5V
+
+Q3
+
+47 kΩ
+
+470 Ω IO
+
+Recommendation: R = 1MΩ, C = 4700pF
+
+##### 2.5.6. Standby mode wake-up circuit
+
+The GD32E5xx series series supports five low-power modes, namely sleep mode, deep-sleep mode、deep-sleep 1、deep-sleep 2 mode and standby mode. The standby mode with the lowest power consumption is the standby mode, which requires the longest wake-up time. Wake-up from Standby mode can be woken up by the rising edge of the WKUP pin. At this time, there is no need to configure the corresponding GPIO, just configure the WUPEN bit in the PMU_CS register. The WKUP wake-up pin reference circuit is designed as follows::
+
+Figure 2-24. Recommend Standby external wake-up pin circuit design
+
+Wakeup
+
+10 kΩ
+
+VD D
+
+GND
+
+Note: In this mode, attention should be paid to the circuit design. If there is a series resistance between the WKUP pin and VDD, additional power consumption may be added.
+
+##### 2.6. Download the debug circuit
+
+GD32E5xx series cores support JTAG debug interface and SWD debug interface. The JTAG interface standard is a 20-pin interface, including 5 signal interfaces, and the SWD interface standard is a 5-pin interface, including 2 signal interfaces.
+
+Note: After reset, the debug related ports are in input PU/PD mode, where: 
+PA15: JTDI is in pull-up mode. 
+PA14: JTCK/SWCLK in pull-down mode. 
+PA13: JTMS/SWDIO in pull-up mode. 
+PB4: NJTRST is in pull-up mode. 
+PB3: JTDO is floating mode. 
+
+Table 2-11. JTAG download debug interface assignment Alternate function GPIO port JTMS PA13 JTCK PA14 JTDI PA15 JTDO PB3 NJTRST PB4
+
+#### AN078
+
+Figure 2-25. Recommend JTAG Wiring Reference Design
+
+PA14
+
+VD D
+
+GND
+
+PA13
+
+VDD
+
+PA15
+
+PB3
+
+JTAG GD32E5xx
+
+JTCK
+
+JTMS
+
+VDD
+
+JTDI
+
+JTDO
+
+VD D
+
+10 kΩ
+
+10 kΩ
+
+NJTRST PB4
+
+RESET NRST
+
+GND GND
+
+Table 2-12. SWD Download Debug Interface Assignment
+
+Alternate function GPIO port
+
+SWDIO PA13
+
+SWCLK PA14
+
+Figure 2-26. Recommend SWD Wiring Reference Design
+
+PA14
+
+VD D
+
+GND
+
+PA13
+
+VDD
+
+SWD GD32E5xx
+
+SWCLK
+
+SWDIO
+
+VDD
+
+VD D
+
+10 kΩ
+
+10 kΩ
+
+RESET NRST
+
+GND GND
+
+There are several ways to improve the reliability of SWD download and debugging communication and enhance the anti-interference ability of download and debugging.
+
+1. Shorten the length of the two SWD signal lines, preferably within 15cm.
+
+2. Weave the two SWD wires and the GND wire into a twist and twist them together.
+
+3. Connect separately tens of pF small capacitors in parallel between the two signal lines of
+
+the SWD and the ground.
+
+4. Any IO of the two signal lines of SWD is connected in series with a 100Ω ~ 1kΩ resistor.
+
+##### 2.7. Reference Schematic Design
+
+Figure 2-27. GD32E5xx Recommend Reference Schematic Design
+
+### 3. PCB Layout Design
+
+In order to enhance the functional stability and EMC performance of the MCU, it is not only necessary to consider the performance of the supporting peripheral components, but also the PCB Layout. In addition, when conditions permit, try to choose a PCB design solution with an independent GND layer and an independent power supply layer, which can provide better EMC performance. If conditions do not allow, independent GND layer and power supply layer cannot be provided, then it is also necessary to ensure a good power supply and grounding design, such as making the GND plane under the MCU as complete as possible. For packages with EPAD, it is recommended that EPAD be grounded on the PCB Layout.
+
+In applications with high power or strong interference, it is necessary to consider keeping the MCU away from these strong interference sources.
+
+##### 3.1. Power Supply Decoupling Capacitors
+
+The GD32E5xx series power supply has three power supply pins: VDD, VDDA and VBAT. The 100nF decoupling capacitor can be made of ceramic, and it is necessary to ensure that the position is as close to the power supply pin as possible. The power trace should try to make it pass through the capacitor first and then reach the MCU power pin, It is recommended to punch holes near the capacitor pad to connect with GND.
+
+Figure 3-1. Recommend Power Pin Decoupling Layout Design
+
+##### 3.2. Clock Circuit
+
+GD32E5xx series clocks have HXTAL and LXTAL, and the clock circuit (including crystal or crystal oscillator and capacitor, etc.) is required to be placed close to the MCU clock pin, and the clock trace should be wrapped by GND as much as possible.
+
+Figure 3-2. Recommend Clock Pin Layout Design (passive crystal)
+
+Note: 
+1. The crystal should be as close to the MCU clock pin as possible, and the matching 
+capacitor should be as close as possible to the crystal. 
+2. The whole circuit should be on the same layer as the MCU, and the wiring should not go 
+through the layer as much as possible. 
+3. The PCB area of the clock circuit should be kept as empty as possible, and no traces 
+unrelated to the clock should be taken. 
+4. High-power, high-interference risk devices and high-speed wiring should be kept away 
+from the clock crystal circuit as far as possible. 
+5. The clock line is grounded to achieve a shielding effect. 
+
+##### 3.3. Reset Circuit
+
+NRST trace PCB Layout reference is as follows:
+
+Figure 3-3. Recommend NRST Trace Layout Design
+
+Note: The resistance and capacitance of the reset circuit should be as close as possible to the NRST pin of the MCU, and the NRST trace should be kept away from devices with strong interference risk and high-speed traces as far as possible. If conditions permit, it had better
+
+to wrap the NRST traces for better shielding effect.
+
+##### 3.4. SHRTIMER Circuit
+
+SHRTIMER has a super high-resolution counting clock and can be used for high-precision timing. It can generate 10 super high resolution and flexible digital signals to control motor or be used for power management applications. The 10 digital signals can be output independently or coupled into 5 pairs of complementary signals.When used as multi-channel PWM output, it is recommended to use equal length and equal width lines for the output signal lines, eliminating interference from PCB traces to SHRTIMER resolution. The trace layout is shown in the figure:
+
+Figure 3-4. Recommend SHRTIMER multi-channel PWM Trace Layout Design
+
+##### 3.5. USB Circuit
+
+The USB module has two differential signal lines, DM and DP. It is recommended that the PCB traces require a characteristic impedance of 90ohm. The differential traces should be run in strict accordance with the rule of equal length and equal distance, and the traces should be kept as short as possible. If the two differential lines are not equal in length , the short line can be compensated with a serpentine line at the terminal.
+
+DM and DP differential cable routing precautions are as follows:
+
+1. Reasonable placement during layout to shorten the differential trace distance.
+
+2. Draw differential lines first, try not to exceed two pairs of vias for a pair of differential lines, 
+and place them symmetrically. 
+3. Symmetrical parallel wiring to ensure that the two lines are tightly coupled, avoiding 90°, 
+arc or 45° wiring. 
+4. Devices such as resistance-capacitor, EMC connected to the differential traces, or test 
+points should also be symmetrical. 
+
+### 4. Package Description
+
+GD32E5xx series has a total of 5 package types, namely LQFP48, LQFP64, LQFP100 and LQFP144.
+
+Table 4-1. Package Description Ordering code Package GD32E5xxCxT6 LQFP48(7x7, 0.5 pitch) GD32E5xxRxT6 LQFP64(10x10, 0.5 pitch) GD32E5xxVxT6 LQFP100(14x14, 0.5 pitch) GD32E5xxZxT6 LQFP144(20x20, 0.5pitch)
+
+(Original dimensions are in millimeters)
+
+#### AN078
+
+### 5. Revision history
+
+Table 5-1. Revision history Revision No. Description Date 1.0 Initial Release Dec.18, 2022
+
+1.1
+
+Update section 2.1.3 to provide all packaging power supply design drawings, explaining the connection of relevant pins within the chip
+
+Jun. 21, 2023
+
+1.2
+
+Update GD32E50x to GD32E5xx. Add three series GD32E513/517/518xx to applicable products
+
+Apr. 23, 2024
+
+1.3
+
+Add VDD/VDDA domain note 5/6 
+Add GPIO Circuit note 7 
+Add Externalhigh-speed crystal oscillator 
+clock note 8 
+
+May. 17, 2024
+
+1.4
+
+1. Refine the content related to power supply detection and reset, and add Section 2.2; 2. Modify the USB DM/DP circuit.
+
+Dec.15, 2024
+
+#### AN078
+
+Important Notice
+
+This document is the property of GigaDevice Semiconductor Inc. and its subsidiaries (the "Company"). This document, including any product of the Company described in this document (the “Product”), is owned by the Company under the intellectual property laws and treaties of the People’s Republic of China and other jurisdictions worldwide. The Company reserves all rights under such laws and treaties and does not grant any license under its patents, copyrights, trademarks, or other intellectual property rights. The names and brands of third party referred thereto (if any) are the property of their respective owner and referred to for identification purposes only.
+
+The Company makes no warranty of any kind, express or implied, with regard to this document or any Product, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The Company does not assume any liability arising out of the application or use of any Product described in this document. Any information provided in this document is provided only for reference purposes. It is the responsibility of the user of this document to properly design, program, and test the functionality and safety of any application made of this information and any resulting product. Except for customized products which has been expressly identified in the applicable agreement, the Products are designed, developed, and/or manufactured for ordinary business, industrial, personal, and/or household applications only. The Products are not designed, intended, or authorized for use as components in systems designed or intended for the operation of weapons, weapons systems, nuclear installations, atomic energy control instruments, combustion control instruments, airplane or spaceship instruments, transportation instruments, traffic signal instruments, life-support devices or systems, other medical devices or systems (including resuscitation equipment and surgical implants), pollution control or hazardous substances management, or other uses where the failure of the device or Product could cause personal injury, death, property or environmental damage ("Unintended Uses"). Customers shall take any and all actions to ensure using and selling the Products in accordance with the applicable laws and regulations. The Company is not liable, in whole or in part, and customers shall and hereby do release the Company as well as it’s suppliers and/or distributors from any claim, damage, or other liability arising from or related to all Unintended Uses of the Products. Customers shall indemnify and hold the Company as well as it’s suppliers and/or distributors harmless from and against all claims, costs, damages, and other liabilities, including claims for personal injury or death, arising from or related to any Unintended Uses of the Products.
+
+Information in this document is provided solely in connection with the Products. The Company reserves the right to make changes, corrections, modifications or improvements to this document and Products and services described herein at any time, without notice.
+
+© 2024 GigaDevice – All rights reserved
+

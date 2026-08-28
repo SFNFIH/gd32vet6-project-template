@@ -1,0 +1,495 @@
+兆易创新GigaDevice-资料下载GigaDevice GD32 MCU
+
+
+
+
+
+
+
+
+
+
+
+- Product News 
+- Industry News 
+- Dynamics 
+
+- In-house Solution 
+- Industry Solution 
+- Innovation Solution 
+
+- Official Tools 
+- Partner Tools 
+- Embedded Software 
+- Online Training 
+
+   
+
+- Product News 
+- Industry News 
+- Dynamics 
+
+- Industry Solution 
+- Innovation Solution 
+- In-house Solution 
+
+- Official Tools 
+- Partner Tools 
+- Embedded Software 
+- Online Training 
+
+
+
+Get access on the GD32 MCU supporting software and hardware resource for free, make your development easier than ever!
+
+Search 
+
+More 
+
+Datasheet (8 in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+GD32E503xx Datasheet 2.5 none 2026-04-15
+
+Introduction：Datasheet of GD32E503xx series MCU.
+
+GD32E505xx Datasheet 2.3 none 2026-04-15
+
+Introduction：Datasheet of GD32E505xx series MCU.
+
+GD32E507xx Datasheet 2.1 none 2026-04-15
+
+Introduction：Datasheet of GD32E507xx series MCU.
+
+GD32E508xx Datasheet 1.8 none 2026-04-15
+
+Introduction：Datasheet of GD32E508xx series MCU.
+
+GD32E502xx Datasheet 1.5 none 2026-04-15
+
+Introduction：Datasheet of GD32E502xx series MCU.
+
+GD32E513xx Datasheet 1.6 none 2026-04-15
+
+Introduction：Datasheet of GD32E513xx series MCU.
+
+GD32E517xx Datasheet 1.4 none 2026-04-15
+
+Introduction：Datasheet of GD32E517xx series MCU.
+
+GD32E518xx Datasheet 1.3 none 2026-01-27
+
+Introduction：Datasheet of GD32E518xx series MCU.
+
+User Manual (27 in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+GD32E50x User Manual 2.2 2026-04-15
+
+Introduction：GD32E50x series MCU user manual of GD32E503xx, GD32E505xx, GD32E507xx, GD32E508xx, GD32EPRTxx.
+
+GD32E502xx User Manual 1.7 2026-04-15
+
+Introduction：GD32E502xx series MCU User Manual of GD32E502.
+
+GD32E51x User Manual 1.6 2026-04-15
+
+Introduction：GD32E51x series MCU user manual of GD32E513xx, GD32E517xx, GD32E518xx, GD32EPRTxxA.
+
+GD-Link V3 Adapter User Guide 1.2 none 2026-02-24
+
+Introduction：GD-Link V3 programming and debugging tool user guide. Application to the entire GD32 MCU series.
+
+GD-Link V2 Adapter User Guide 1.2 none 2025-11-19
+
+Introduction：GD-Link V2 programming and debugging tool user guide. Application to the entire GD32 MCU series.
+
+GD-Link Adapter User Guide 2.4 none 2022-06-22
+
+Introduction：GD-Link programming and debugging tool user guide. Suitable for GD32F1/GD32F2/GD32F3/GD32F4/GD32E1/GD32E2/ GD32E5/GD32W5/GD32L2/GD32VF1 series MCU
+
+AN060 Thermal management manual for GD32 MCU 1.0 2022-06-10
+
+Introduction：AN060 aims to introduce the definition, measurement and calculation methods of thermal resistance, as well as some heat dissipation measures to help users solve the problem of device overheating during design.
+
+AN055 ESD Static Protection Manual 1.0 2022-04-20
+
+Introduction：AN055 aims to introduce ESD operation precautions during the use of GD32 MCU, so as to help customers avoid ESD/EOS interference during development and debugging.
+
+AN049 GD32 USBD Firmware Library User Guide 1.0 2022-03-28
+
+Introduction：AN049 aims to analyze the firmware library architecture of the USBD module, and briefly describe the functions of the firmware library functions, to provide reference for customers’ development.
+
+AN050 GD32 USBFS&USBHS Firmware Library User Guide 1.0 2022-03-22
+
+Introduction：AN050 aims to analyze the firmware library architecture of the USBFS and USBHS modules, and briefly describe the functions of the firmware library functions, to provide reference for customers’ development.
+
+AN013 The scheme of CLA square wave filter 1.0 2021-12-15
+
+Introduction：AN013 provides a square wave filter scheme based on GD MCU CLA module, which solves the problem that users cannot correctly calculate the number of captured square wave signals due to the influence of burr signals when capturing square wave signals. The application note is suitable for GD32E501 series MCU.
+
+AN014 Application of GD32 MCU in Arduino 1.0 2021-12-15
+
+Introduction：AN014 application note describes how to configure and develop a GD32 MCU project using the Arduino IDE.
+
+AN015 Transplantation of LFS file system based on GD32F450Z 1.0 2021-12-15
+
+Introduction：AN015 introduces the method of porting LittleFS to GD MCU project, and tests the read and write function of file system. This application note is applicable to GD32F1/GD32F2/GD32F3/GD32F4/GD32E1/GD32E5/GD32W5/GD32L2 series MCU.
+
+AN033 makefile project manager based on linux 1.0 2021-12-15
+
+Introduction：AN033 describes how to use makefile to manage the whole MCU code project in Linux environment. You can specify files or modules for compilation.
+
+AN040 IAP program jumping description 1.0 2021-12-15
+
+Introduction：AN041 is an application note about how to realize the program jumping from Bootloader to APP. Applicable to GD32 ARM core series MCU.
+
+AN043 Flash operation time measurement of GD32L23x 1.0 2021-12-15
+
+Introduction：AN043 application note introduces how to measure the GD32 MCU flash operating time, including mass erasing time, page erasing time, and word programming time. Take GD32L23x MCU as an example.
+
+AN044 Use LXTAL to calibrate IRC8M in GD32F10x 1.0 2021-12-15
+
+Introduction：AN044 application note introduces how to calibrate the internal IRC8M by using LXTAL in the GD32F10x. The application note can also be applied in other series of GD32 MCU.
+
+AN010 Wakeup from Deep-sleep 2 and recover the scene 1.0 2021-12-14
+
+Introduction：AN010 is an application note that provides a method to recover the scene when using GD MCU Deep-sleep2 mode. Applicable to GD32E5 series MCU.
+
+AN027 Update program through USART ISP by embedded host 1.0 2021-12-14
+
+Introduction：AN027 is an application note about using GD MCU as embedded host to update program of the target MCU through ISP. Applicable to GD32F1/GD32F2/GD32F3/GD32F4/GD32E1/GD32E5 series MCU.
+
+AN035 Boot from SRAM 1.0 2021-12-14
+
+Introduction：AN035 is an application note about programs boot from SRAM when running with GD MCU. Applicable to GD32F1/GD32F2/GD32F3/GD32F4/GD32E1/GD32E2/GD32E5 series MCU.
+
+AN016 Build GD32 MCU development environment based on cmake tool 1.0 2021-12-13
+
+Introduction：AN016 provides a way to use the CMAKE tool to build the GD32 MCU development environment in VSCODE. Applicable to GD32F1/GD32F3/GD32F4/GD32E5 series MCU.
+
+AN017 Use Jlink to download files to SPI Nor Flash 1.0 2021-12-13
+
+Introduction：AN017 provides two programming methods for problems that require downloading data to SPI Nor Flash during development. Applicable to the full range of GD32 MCUs.
+
+AN020 How to use CmBacktrace to track faults in GD32 Cortex-M series 1.0 2021-12-13
+
+Introduction：AN020 is an application note on how to use CmBacktrace to track errors on the GD32 chip.
+
+AN021 Several methods of measuring MCU code running time 1.0 2021-12-13
+
+Introduction：AN021 provides four common methods for measuring code execution time on MCUs during development. Applicable to the full range of GD32 MCUs.
+
+AN022 How to map 0xC0000000 to 0x00000000 to run the program 1.0 2021-12-13
+
+Introduction：AN022 is an application note that introduces how to map 0xC0000000 to 0x00000000 to run the program on GD32 MCU that supports address mapping.
+
+AN023 How to port letter shell on GD platform 1.0 2021-12-13
+
+Introduction：AN023 is an application note on how to port and test Letter shell on the GD platform.
+
+AN041 GD32 ARM MCU Eclipse development tutorial for Windows 1.0 2021-12-13
+
+Introduction：AN041 is an application note about how to use Eclipse for GD32 MCU development. Applicable to GD32 ARM core series MCU.
+
+Tool & Software (14&nbsp;in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+GD32 ISP Console(Linux) 5.1.0.39154 none 2026-04-27
+
+Introduction：ISP console tool under Windows system, used for serial port and USB burning GD MCU Flash data.
+
+GD32_ISP_Console(Windows) 5.1.0.39034 none 2026-04-23
+
+Introduction：ISP console tool under Windows system, used for serial port and USB burning GD MCU Flash data.
+
+GD32E50x AddOn 1.9.0 none 2026-04-15
+
+Introduction：Contains the following files, details are as follows: (For GD32E503xx / GD32E505xx / GD32E507xx / GD32E508xx / GD32EPRTxx) 1. GigaDevice.GD32E50x_DFP.1.9.0.pack, pack file used to support Keil ver 5.27 or later 2. IAR_GD32E50x_ADDON.1.9.0.exe, addon file used to support IAR ver 8.32.1 or later
+
+GD32E51x AddOn 1.5.0 none 2026-04-15
+
+Introduction：Contains the following files, details are as follows: (For GD32E513xx / GD32E517xx / GD32E518xx / GD32EPRTxxA) 1. GigaDevice.GD32E51x_DFP.1.5.0.pack, pack file used to support Keil ver 5.27 or later 2. IAR_GD32E51x_ADDON.1.5.0.exe, addon file used to support IAR ver 8.32.1 or later
+
+GD-Link Utility Programmer 2.1.10.38023 none 2026-03-24
+
+Introduction：GD-Link Utility Programmer is a software tool for programming GD32 series MCU chips. Using this tool with GD-Link, users can perform operations such as chip erase, Flash read/write, and option byte configuration on GD32 microcontrollers. The tool also supports GD-Link offline download and firmware update functions.
+
+GD32 Embedded Builder 1.5.8_Rel_r37696 none 2026-03-16
+
+Introduction：Embedded Builder is a C-language integrated development environment (IDE) of GD32MCU. User can configure peripherals graphically, the IDE can generate code, compile project and debug.
+
+GD32E50x Firmware Library 1.7.0 none 2026-02-11
+
+Introduction：GD32E50x standard firmware library is suitable for GD32E50x series MCU. The library is compatible with the CMSIS (Cortex-M Microcontroller Software Interface Standard), and includes programs, data structures and macro definitions. It covers the features of all the integrated peripherals, contains all the related drivers and sample programs.
+
+GD32E51x Firmware Library 1.4.0 none 2026-02-11
+
+Introduction：GD32E51x standard firmware library is suitable for GD32E51x series MCU. The library is compatible with the CMSIS (Cortex-M Microcontroller Software Interface Standard), and includes programs, data structures and macro definitions. It covers the features of all the integrated peripherals, contains all the related drivers and sample programs.
+
+GD32 All-In-One Programmer 5.0.6.37166 none 2026-02-06
+
+Introduction：GD32 All-In-One Programmer is a software tool for programming GD32 series MCU chips. The software supports firmware download, chip erasure, read and write Flash, setting option bytes and other operations on GD32 microcontrollers through a variety of interfaces (such as serial port, USB, GD ISP Bridge, etc.) and protocols (such as UART, I2C, OSPI, DFU, HID, CAN, LIN, etc.). It is suitable for development, testing and mass production scenarios.
+
+GD32 Embedded AI 1.1.0.35007 2025-11-21
+
+Introduction：Support H5、TFLite、Onnx and Savemodel model format. Support model analysis, extracts weights and model network information based on the input model. Support automatic generation of the Keil and IAR project, and generates a project that can be compiled and run. Support for post-training model quantization and support for importing NPZ datasets. Support for forward inference of single or multi-branch network. Support automatic benchmarking, and generate model analysis reports.
+
+GD32E502 Firmware Library 1.6.0 none 2025-09-10
+
+Introduction：GD32E502 standard firmware library is suitable for GD32E502 series MCU. The library is compatible with the CMSIS (Cortex-M Microcontroller Software Interface Standard), and includes programs, data structures and macro definitions. It covers the features of all the integrated peripherals, contains all the related drivers and sample programs.
+
+GD32E502 AddOn 1.3.0 none 2025-09-10
+
+Introduction：There are 2 files in the zip file, details are as follows: (For GD32E502xx series) 1. GigaDevice.GD32E502_DFP.1.3.0.pack, addon files used to support keil ver 5.28 or later . 2. IAR_GD32E502_ADDON.1.2.0.exe, addon files used to support IAR ver 8.32 or later.
+
+GD Custom_HID Tool 2.0.3.18059 none 2025-02-26
+
+Introduction：The software based on the Custom HID protocol is used in conjunction with the GD's Custom HID device, serving as demo application software.
+
+GD32 MCU Info Query Tool 1.3.0.10762 none 2021-04-29
+
+Introduction：GD32 MCU Information Query Tool. Filter and match MCU according to the options, thereby improving the efficiency of selection and making the selection process more convenient and friendly.
+
+Evaluation Board (3 in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+GD32E50x Demo Suites 1.8.0 none 2026-04-15
+
+Introduction：GD32E50x series EVAL board routines and user guide. The Demo Suites can support GD32E503C_START board, GD32E503R_START board, GD32E503V_EVAL board, GD32E503Z_EVAL board, GD32E507R_START board, GD32E507V_START board, GD32E507Z_EVAL board, GD32EPRTV_START board.
+
+GD32E51x Demo Suites 1.4.0 none 2026-04-15
+
+Introduction：GD32E51x Demo Suites. The Demo Suites can support GD32E517R_START board, GD32E517V_START board, GD32E517Z_EVAL board and GD32E518C_START board.
+
+GD32E502 Demo Suites 1.4.0 none 2025-02-20
+
+Introduction：GD32E502 Demo Suites. The Demo Suites can support GD32E502C-START board, GD32E502K-START board, GD32E502R-START board and GD32E502V-EVAL board.
+
+Other Document (2 in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+Gigadevice GD-Link Win7 Driver 1.0.0 none 2025-11-04
+
+Introduction：GD-Link V2 WIN7 system driver installation file.
+
+GD32 MCU Selection Guide 2025 2025-10-17
+
+Introduction：GD32 MCU Selection Guide, for all GD32 products.
+
+Application Note (33 in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+AN221 Instructions for scatter loading in IAR for GD32 Arm Cortex-M processors 1.2 2026-04-02
+
+Introduction：GD32MCU IAR scatter loading instruction, support GD32 Arm Cortex-M processor.
+
+AN206 Instructions for scatter loading in Keil MDK5 for GD32MCU 1.1 2026-04-02
+
+Introduction：GD32MCU Keil MDK5 scatter loading instruction, support GD32 Arm Cortex-M processor.
+
+AN320 PWM‑DAC Technology Guide Based on GD32 MCU 1.0 2026-03-25
+
+Introduction：AN320 provides theoretical analysis and experimental verification of the PWM-DAC technology based on GD32 MCU, aiming to guide users in implementing DAC functionality at low cost using this technique.
+
+AN311 Scatter Loading Instructions of GD32 Embedded Builder for Arm Cortex-M Processor 1.0 2026-01-21
+
+Introduction：GD32 Embedded Builder scatter loading instruction, support GD32 Arm Cortex® M3/M4/M23/M33/M7 core MCU products
+
+AN200 GD32 Embedded Builder Linker Script Files Introduction for Arm Cortex-M Processor 1.0 2026-01-21
+
+Introduction：GD32 Embedded Builder linker script files introduction , support GD32 Arm Cortex® M3/M4/M23/M33/M7 core MCU products
+
+AN205 Differences between GD32E51x and GD32E50x Products 1.2 2025-12-24
+
+Introduction：This application note introduces the characteristic differences between GD32E51x and GD32E50x product series, mainly for electric characteristics and peripheral function characteristics.
+
+AN164 Guide to porting Dhrystone based on GD32 MCU 1.0 none 2025-12-05
+
+Introduction：This paper introduces the principle of Dhrystone and the porting method on GD32 MCU
+
+AN283 GD32 MCU Device Assembly Guide 1.0 2025-11-10
+
+Introduction：AN283 introduces the packaging types of GD32 MCUs and the concept of Moisture Sensitivity Level (MSL), while providing guidance on PCB pad design and device soldering.
+
+AN264 Using the EIDE Plugin in VS Code to Develop GD32 MCU 1.0 2025-08-04
+
+Introduction：This application note aims to guide developers in using Visual Studio Code (VS Code) with the EIDE (Embedded IDE) and Cortex-Debug plugins for embedded microcontroller (MCU) development and debugging.
+
+AN191 GD32 MCU Hardware Layout Design Reference 1.1 2025-07-17
+
+Introduction：AN191 introduces the MCU hardware layout reference design, where developers consider issues such as electrostatic and electromagnetic interference from both the design and PCB layout perspectives. Further optimization is carried out to reduce or even eliminate the impact of electrostatic and electromagnetic interference on the system.
+
+AN062 GD32MCU EMC Application Note 2.0 2025-07-11
+
+Introduction：AN062 introduces the theory and characteristics of EMC and provides corresponding recommendations for system EMC design based on experiences gained from various applications.
+
+AN250 GD32 Clock Switching Configuration User Guide 1.0 2025-06-19
+
+Introduction：AN250 mainly introduces the software-level considerations required when dealing with clock switching on GD32 chips.
+
+AN262 Migration from GD32E50x series to GD32E51x series_Rev1.0 1.0 2025-04-28
+
+Introduction：This document describes how to port from the GD32E50x series to the GD32E51x series.
+
+AN092 GD32 MCU GPIO Structure and Precautions 1.5 2024-12-20
+
+Introduction：AN092 is designed for engineering designers based on GD32 MCU development, and mainly introduces the functional configuration of GPIO, the internal structure, and the precautions when using in different scenarios
+
+AN078 GD32E5xx Hardware Development Guide 1.4 2024-12-20
+
+Introduction：AN078 is designed to describe the hardware development of GD32E5xx series products, so as to allow developers to quickly get started and use GD32E5xx series products.
+
+AN101 GD32E501 Hardware Development Guide 1.2 2024-12-20
+
+Introduction：AN101 is designed to describe the hardware development of GD32E501 series products, so as to allow developers to quickly get started and use GD32E501 series products.
+
+AN036 Solution of I2C bus lock based on EEPROM communication 1.1 2024-11-25
+
+Introduction：AN036 provides a software solution to bus locking when communicating with EEPROM using GD MCU I2C module.
+
+AN218 Migration from GD32E5xx to GD32G5xx Series 1.0 none 2024-11-12
+
+Introduction：AN218 mainly introduces the method of migrating from GD32E5xx to GD32G5xx series.
+
+AN181 I2C Noise Filters and Related Hold and Setup Times 1.0 none 2024-10-17
+
+Introduction：AN181 introduces the I2C noise filter of the GD32 MCU and the calculation of related hold and setup times.
+
+AN192 GD32 MCU Spreading Frequency Test Operation Guide 1.1 none 2024-07-11
+
+Introduction：AN192 describes how to use GD32 MCU for spreading frequency testing, and uses GD32F470 as an example to introduce the relevant operation steps and their impact.
+
+AN095 Methods to Improve the Accuracy of the GD32 Temperature Sensor 1.2 2024-06-04
+
+Introduction：AN95 aims to guide customers on ways to improve the accuracy of GD32 MCU temperature sensors.
+
+AN163 GD32 MCU EMC Hardware Protection Design Reference 1.0 2024-03-27
+
+Introduction：AN163 provides some EMC protection design references for MCU hardware design, aiming to help optimize the EMC performance of MCU in the product application process.
+
+AN051 TVS Selection and Use of ESD Protection Devices 1.1 2024-03-05
+
+Introduction：AN051 is designed to help users better solve ESD problems by choosing the right TVS model.
+
+AN142 EMC Design Technology for Drivers and Motors 1.0 none 2023-10-30
+
+Introduction：AN142 introduces the sources and some improvement methods of EMC in motors and their drive systems, helping users quickly understand and optimize key circuits in the drive system.
+
+AN125 IEC61967-2 Chip-Level RE Test 1.0 2023-09-26
+
+Introduction：AN125 introduces MCU chip-level RE test methods and precautions to help users quickly understand chip-level RE test.
+
+AN159 Chip-level ESD and System-level ESD Differences 1.0 none 2023-08-31
+
+Introduction：AN159 describes the differences between MCU chip-level ESD and system-level ESD within test methods and test levels, helping users to clarify the irrelevance between chain-level ESD and system-level ESD.
+
+AN065 FATFS file system porting based on GD32 MCU Rev1.0 2023-08-28
+
+Introduction：AN065 introduces how to port FATFS file system based on GD32 MCU.
+
+AN128 IEC61000-4-4 System level EFT Test 1.0 2023-07-01
+
+Introduction：AN128 introduces MCU system-level EFT test method, experiment implementation details and precautions to help users quickly understand the meaning of EFT parameters and test details in the datasheet.
+
+AN127 IEC61000-4-2 System-Level ESD Test 1.0 2023-07-01
+
+Introduction：AN127 introduces MCU system-level ESD test method, experiment implementation details and precautions to help users quickly understand the meaning of ESD parameters and test details in the datasheet.
+
+AN089 GD32 TSI TouchKey Software Library User Guide 1.0 2023-06-02
+
+Introduction：AN089 introduces the design principle and usage of TouchKey software library, which can help developers quickly use TouchKey software library for configuration and development.
+
+AN059 Methods to improve ADC sampling accuracy 1.1 2022-12-12
+
+Introduction：AN059 introduces the basic principle of GD32 SAR ADC, and introduces the methods to improve the ADC sampling accuracy from several aspects, such as theory and practical sampling.
+
+AN052 GD32 MCU Resonator-Based Clock Circuits 1.1 2022-12-08
+
+Introduction：AN052 is designed to describe the principle and application notes of GD32 MCU resonator-based clock circuit ,so as to facilitate developers to more quickly realize the conversion from design scheme to actual circuit.
+
+AN064 Calibration method of internal low speed oscillator using TIMER 1.0 2022-08-23
+
+Introduction：AN064 aims to describe the method of using TIMER to calibrate the low speed oscillator.
+
+Errata Sheet (3 in all)
+
+
+
+- Filename
+- Version
+- English Document
+- Chinese Document
+- Published Date
+
+Device Limitations of GD32E50x 1.6 2025-10-13
+
+Introduction：Errata of GD32E50x series ARM Cortex-M33 MCU.
+
+Device limitations of GD32E502 1.0 none 2024-12-26
+
+Introduction：Errata of GD32E502 series ARM Cortex-M33 MCU.
+
+Device Limitations of GD32E51x 1.0 none 2024-10-14
+
+Introduction：This document introduces the limitations and related solutions of GD32E51x product series.
+
+@2026 ALL RIGHTS RESERVED
+
+
+
+News
+
+Download
+
+Solution
+
+Ecosystem
+
+Contact Us
+
+- Tel:+86-10-82881666
+- Fax:+86-10-62701701
+- Email:gd32@gigadevice.com
