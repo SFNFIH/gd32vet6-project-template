@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.22)
 
-# GD32VET6 Project Template firmware configuration (STM32CubeMX-style layout)
+# GD32VET6 Project Template firmware configuration
 
-set(MX_Defines_Syms
+set(GD32_Defines_Syms
     USE_STDPERIPH_DRIVER
     GD32E50X
     GD32E50X_HD
     $<$<CONFIG:Debug>:DEBUG>
 )
 
-set(MX_Include_Dirs
+set(GD32_Include_Dirs
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/CMSIS
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/CMSIS/GD/GD32E50x/Include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/GD32E50x_standard_peripheral/Include
 )
 
-set(MX_Application_Src
+set(GD32_Application_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/main.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/gd32e50x_it.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/systick.c
@@ -57,14 +57,14 @@ set(GD32_Drivers_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/GD32E50x_standard_peripheral/Source/gd32e50x_wwdgt.c
 )
 
-set(MX_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/../../GD32VET6_FLASH.ld)
+set(GD32_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/../../GD32VET6_FLASH.ld)
 
-set(MX_LINK_LIBS
+set(GD32_LINK_LIBS
     GD32_Drivers
     ${TOOLCHAIN_LINK_LIBRARIES}
 )
 
-set(MX_COMPILE_OPTIONS
+set(GD32_COMPILE_OPTIONS
     -mcpu=cortex-m33
     -mfpu=fpv5-sp-d16
     -mfloat-abi=hard
@@ -82,7 +82,7 @@ set(MX_COMPILE_OPTIONS
     $<$<NOT:$<CONFIG:Debug>>:-g0 -Os>
 )
 
-set(MX_LINK_OPTIONS
+set(GD32_LINK_OPTIONS
     -mcpu=cortex-m33
     -mfpu=fpv5-sp-d16
     -mfloat-abi=hard
@@ -94,24 +94,24 @@ set(MX_LINK_OPTIONS
     -Wl,--start-group -lc -lm -Wl,--end-group
 )
 
-add_library(stm32cubemx INTERFACE)
-target_include_directories(stm32cubemx INTERFACE ${MX_Include_Dirs})
-target_compile_definitions(stm32cubemx INTERFACE ${MX_Defines_Syms})
-target_compile_options(stm32cubemx INTERFACE ${MX_COMPILE_OPTIONS})
-target_link_options(stm32cubemx INTERFACE ${MX_LINK_OPTIONS})
+add_library(gd32firmware INTERFACE)
+target_include_directories(gd32firmware INTERFACE ${GD32_Include_Dirs})
+target_compile_definitions(gd32firmware INTERFACE ${GD32_Defines_Syms})
+target_compile_options(gd32firmware INTERFACE ${GD32_COMPILE_OPTIONS})
+target_link_options(gd32firmware INTERFACE ${GD32_LINK_OPTIONS})
 
 add_library(GD32_Drivers OBJECT)
 target_sources(GD32_Drivers PRIVATE ${GD32_Drivers_Src})
-target_link_libraries(GD32_Drivers PUBLIC stm32cubemx)
+target_link_libraries(GD32_Drivers PUBLIC gd32firmware)
 
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${MX_Application_Src})
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${GD32_Application_Src})
 
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
-    -T${MX_LINKER_SCRIPT}
+    -T${GD32_LINKER_SCRIPT}
     -Wl,-Map=${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map
 )
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${MX_LINK_LIBS})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${GD32_LINK_LIBS})
 
 if((CMAKE_C_STANDARD EQUAL 90) OR (CMAKE_C_STANDARD EQUAL 99))
     message(FATAL_ERROR "Generated code requires C11 or higher")

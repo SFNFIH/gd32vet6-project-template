@@ -1,6 +1,6 @@
 # GD32VET6 Project Template
 
-GCC cross-compilation CMake project for **GD32E503VET6**, with a directory layout aligned to **STM32CubeMX** generated CMake projects.
+GCC cross-compilation CMake project for **GD32E503VET6**, with a directory layout inspired by STM32CubeMX generated CMake projects.
 
 ## Requirements
 
@@ -25,7 +25,7 @@ Build artifacts are written to `build/Debug/`:
 - `gd32vet6_project_template.hex`
 - `gd32vet6_project_template.bin`
 
-## Directory Layout (STM32CubeMX-style)
+## Directory Layout
 
 ```
 .
@@ -33,8 +33,8 @@ Build artifacts are written to `build/Debug/`:
 ├── CMakePresets.json
 ├── cmake/
 │   ├── gcc-arm-none-eabi.cmake # Toolchain configuration
-│   └── stm32cubemx/
-│       └── CMakeLists.txt      # Firmware/library configuration (CubeMX-generated equivalent)
+│   └── gd32firmware/
+│       └── CMakeLists.txt      # Firmware/library configuration
 ├── Core/
 │   ├── Inc/                    # Application headers
 │   └── Src/                    # Application sources (main, interrupts, syscalls, etc.)
@@ -44,6 +44,17 @@ Build artifacts are written to `build/Debug/`:
 ├── startup_gd32vet6.s            # Startup file
 └── GD32VET6_FLASH.ld             # Linker script
 ```
+
+## CubeMX Layout Mapping
+
+| STM32CubeMX | This Project |
+|-------------|--------------|
+| `cmake/gcc-arm-none-eabi.cmake` | Same name |
+| `cmake/stm32cubemx/CMakeLists.txt` | `cmake/gd32firmware/CMakeLists.txt` |
+| `stm32cubemx` INTERFACE library | `gd32firmware` INTERFACE library |
+| `STM32_Drivers` OBJECT library | `GD32_Drivers` OBJECT library |
+| `Core/Inc`, `Core/Src` | Same layout |
+| `startup_*.s`, `*.ld` at project root | `startup_gd32vet6.s`, `GD32VET6_FLASH.ld` |
 
 ## MCU Configuration
 
@@ -57,5 +68,5 @@ Build artifacts are written to `build/Debug/`:
 ## Customization
 
 - Add user libraries, macros, and link options in the root `CMakeLists.txt`
-- Manage sources, drivers, and the linker script in `cmake/stm32cubemx/CMakeLists.txt` (CubeMX regeneration equivalent)
+- Manage sources, drivers, and the linker script in `cmake/gd32firmware/CMakeLists.txt`
 - Place application code in `Core/Inc` and `Core/Src`

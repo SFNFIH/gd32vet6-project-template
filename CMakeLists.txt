@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 #
-# User-editable project file (STM32CubeMX-style layout).
+# User-editable project file.
 #
 
 set(CMAKE_PROJECT_NAME gd32vet6_project_template)
@@ -17,14 +17,14 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 add_executable(${CMAKE_PROJECT_NAME})
 
-add_subdirectory(cmake/stm32cubemx)
+add_subdirectory(cmake/gd32firmware)
 
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
-    stm32cubemx
+    gd32firmware
     # Add user defined libraries
 )
 
