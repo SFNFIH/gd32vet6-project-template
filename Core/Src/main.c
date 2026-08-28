@@ -3,8 +3,15 @@
     \brief   GD32E503VET6 CMake template application
 */
 
+#include "main.h"
 #include "gd32e50x.h"
 #include "systick.h"
+
+void Error_Handler(void)
+{
+    while (1) {
+    }
+}
 
 int main(void)
 {

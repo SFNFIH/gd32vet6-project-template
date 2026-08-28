@@ -1,14 +1,36 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.22)
 
-include(${CMAKE_SOURCE_DIR}/cmake/gd32e503vet6.cmake)
+#
+# User-editable project file (STM32CubeMX-style layout).
+#
 
-project(gd32e503vet6 LANGUAGES C CXX ASM)
+set(CMAKE_PROJECT_NAME gd32e503vet6)
 
-set(DRIVERS_DIR ${CMAKE_SOURCE_DIR}/Drivers)
+include("cmake/gcc-arm-none-eabi.cmake")
 
-add_subdirectory(Application)
-add_subdirectory(Drivers/CMSIS)
-add_subdirectory(Drivers/GD32E50x_standard_peripheral)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
-gd32e503vet6_add_target_properties(gd32e503vet6)
-gd32e503vet6_add_target_properties(GD32E50x_standard_peripheral)
+project(${CMAKE_PROJECT_NAME})
+enable_language(C ASM)
+
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+
+add_executable(${CMAKE_PROJECT_NAME})
+
+add_subdirectory(cmake/stm32cubemx)
+
+target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    # Add user defined library search paths
+)
+
+target_link_libraries(${CMAKE_PROJECT_NAME}
+    stm32cubemx
+    # Add user defined libraries
+)
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.hex
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
+    COMMENT "Generating ${CMAKE_PROJECT_NAME}.hex and ${CMAKE_PROJECT_NAME}.bin"
+)

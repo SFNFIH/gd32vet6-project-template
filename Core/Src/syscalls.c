@@ -22,18 +22,6 @@ extern int errno;
 extern int __io_putchar(int ch) __attribute__((weak));
 extern int __io_getchar(void) __attribute__((weak));
 
-caddr_t _sbrk(int incr)
-{
-  extern char _end[];
-  static char *curbrk = _end;
-
-  if ((curbrk + incr < _end))
-    return NULL - 1;
-
-  curbrk += incr;
-  return curbrk - incr;
-}
-
 /*
  * _gettimeofday primitive (Stub function)
  * */
