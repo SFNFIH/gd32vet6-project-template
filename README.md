@@ -10,7 +10,7 @@
 - pyOCD（烧录/调试，可选）
 
 ```bash
-sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi cmake ninja-build
+sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi cmake ninja-build gdb-multiarch
 pip install pyocd
 pyocd pack install GD32E503VE
 ```
@@ -48,6 +48,25 @@ pyocd gdbserver
 
 也可在 VS Code 中使用任务 **pyOCD: Flash**，或通过 **Debug (pyOCD)** 配置一键调试。
 
+## VS Code 调试
+
+推荐安装 `.vscode/extensions.json` 中列出的扩展，尤其是 **Cortex-Debug** 和 **CMake Tools**。
+
+| 配置 | 说明 |
+|------|------|
+| **Debug (pyOCD)** | 构建后通过 pyOCD 启动 GDB 调试，支持 SVD 外设视图 |
+| **Attach (pyOCD GDB Server)** | 附加到已运行的 `pyocd gdbserver`（默认 `localhost:3333`） |
+
+调试前请连接 CMSIS-DAP / GD-Link 等 SWD 调试器，并安装 GDB：
+
+```bash
+sudo apt install gdb-multiarch
+pip install pyocd
+pyocd pack install GD32E503VE
+```
+
+首次打开工程可执行 **CMake: Configure Debug** 任务，或直接运行调试（会自动构建）。
+
 ## 目录结构
 
 ```
@@ -55,7 +74,12 @@ pyocd gdbserver
 ├── CMakeLists.txt              # 用户可修改的根 CMake 文件
 ├── CMakePresets.json
 ├── pyocd.yaml                  # pyOCD 烧录/调试配置
-├── .vscode/                    # VS Code 构建、烧录、调试任务
+├── GD32E50x_HD.svd             # 外设寄存器描述（调试视图）
+├── .vscode/                    # VS Code 构建、烧录、调试配置
+│   ├── launch.json
+│   ├── tasks.json
+│   ├── settings.json
+│   └── extensions.json
 ├── cmake/
 │   ├── gcc-arm-none-eabi.cmake # 工具链配置
 │   └── gd32firmware/

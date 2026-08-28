@@ -9,8 +9,26 @@
             "executable": "${workspaceFolder}/build/Debug/gd32vet6_project_template.elf",
             "servertype": "pyocd",
             "targetId": "gd32e503ve",
+            "gdbPath": "gdb-multiarch",
             "runToEntryPoint": "main",
+            "showDevDebugOutput": "raw",
+            "svdFile": "${workspaceFolder}/GD32E50x_HD.svd",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
             "preLaunchTask": "CMake: Build Debug"
+        },
+        {
+            "name": "Attach (pyOCD GDB Server)",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/gd32vet6_project_template.elf",
+            "servertype": "external",
+            "gdbTarget": "localhost:3333",
+            "gdbPath": "gdb-multiarch",
+            "svdFile": "${workspaceFolder}/GD32E50x_HD.svd"
         }
     ]
 }

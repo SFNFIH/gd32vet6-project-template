@@ -1,0 +1,12 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.configureOnOpen": false,
+    "cmake.useCMakePresets": "always",
+    "cmake.buildDirectory": "${workspaceFolder}/build/${presetName}",
+    "cortex-debug.armToolchainPath": "",
+    "cortex-debug.gdbPath": "gdb-multiarch",
+    "files.associations": {
+        "*.h": "c",
+        "*.s": "arm"
+    }
+}

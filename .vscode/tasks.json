@@ -2,6 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "CMake: Configure Debug",
+            "type": "shell",
+            "command": "cmake --preset Debug",
+            "problemMatcher": []
+        },
+        {
             "label": "CMake: Build Debug",
             "type": "shell",
             "command": "cmake --build --preset Debug",
@@ -9,13 +15,24 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Build and Flash",
+            "dependsOn": [
+                "CMake: Build Debug",
+                "pyOCD: Flash"
+            ],
+            "dependsOrder": "sequence",
+            "group": "build",
             "problemMatcher": []
         },
         {
             "label": "pyOCD: Flash",
             "type": "shell",
-            "command": "pyocd flash --format hex build/Debug/gd32vet6_project_template.hex",
-            "dependsOn": "CMake: Build Debug",
+            "command": "pyocd load --format hex build/Debug/gd32vet6_project_template.hex",
             "problemMatcher": []
         },
         {
