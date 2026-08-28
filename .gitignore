@@ -1,6 +1,5 @@
 build/
 Build/
-.vscode/
 .cache/
 compile_commands.json
 *.elf

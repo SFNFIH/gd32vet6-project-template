@@ -1,0 +1,20 @@
+# GD32E503VET6 pyOCD 配置
+# 文档: https://pyocd.io/docs/configuration.html
+
+# 目标芯片（GD32E503VET6 对应 gd32e503ve）
+target_override: gd32e503ve
+
+# SWD 时钟频率 (Hz)
+frequency: 8000000
+
+# 烧录前自动解锁
+auto_unlock: true
+
+# CMSIS-Pack（首次使用需执行: pyocd pack install GD32E503VE）
+pack:
+  - GigaDevice.GD32E50x_DFP
+
+# 多调试器同时连接时，可指定探针 UID（pyocd list 查看）
+# probes:
+#   <probe-unique-id>:
+#     target_override: gd32e503ve

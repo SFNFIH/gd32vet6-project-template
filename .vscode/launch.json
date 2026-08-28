@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug (pyOCD)",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/gd32vet6_project_template.elf",
+            "servertype": "pyocd",
+            "targetId": "gd32e503ve",
+            "runToEntryPoint": "main",
+            "preLaunchTask": "CMake: Build Debug"
+        }
+    ]
+}

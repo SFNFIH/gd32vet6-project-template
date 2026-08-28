@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Build Debug",
+            "type": "shell",
+            "command": "cmake --build --preset Debug",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "pyOCD: Flash",
+            "type": "shell",
+            "command": "pyocd flash --format hex build/Debug/gd32vet6_project_template.hex",
+            "dependsOn": "CMake: Build Debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "pyOCD: Erase Chip",
+            "type": "shell",
+            "command": "pyocd erase --chip",
+            "problemMatcher": []
+        },
+        {
+            "label": "pyOCD: GDB Server",
+            "type": "shell",
+            "command": "pyocd gdbserver",
+            "isBackground": true,
+            "problemMatcher": []
+        }
+    ]
+}

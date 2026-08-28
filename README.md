@@ -7,9 +7,12 @@
 - CMake >= 3.22
 - Ninja（推荐）
 - `gcc-arm-none-eabi` 工具链
+- pyOCD（烧录/调试，可选）
 
 ```bash
 sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi cmake ninja-build
+pip install pyocd
+pyocd pack install GD32E503VE
 ```
 
 ## 构建
@@ -25,12 +28,34 @@ cmake --build --preset Debug
 - `gd32vet6_project_template.hex`
 - `gd32vet6_project_template.bin`
 
+## 烧录（pyOCD）
+
+工程根目录已包含 `pyocd.yaml`，目标芯片为 `gd32e503ve`（对应 GD32E503VET6）。
+
+```bash
+# 查看已连接的调试器
+pyocd list
+
+# 烧录 HEX（需先构建）
+pyocd flash --format hex build/Debug/gd32vet6_project_template.hex
+
+# 全片擦除
+pyocd erase --chip
+
+# 启动 GDB 服务器
+pyocd gdbserver
+```
+
+也可在 VS Code 中使用任务 **pyOCD: Flash**，或通过 **Debug (pyOCD)** 配置一键调试。
+
 ## 目录结构
 
 ```
 .
 ├── CMakeLists.txt              # 用户可修改的根 CMake 文件
 ├── CMakePresets.json
+├── pyocd.yaml                  # pyOCD 烧录/调试配置
+├── .vscode/                    # VS Code 构建、烧录、调试任务
 ├── cmake/
 │   ├── gcc-arm-none-eabi.cmake # 工具链配置
 │   └── gd32firmware/
